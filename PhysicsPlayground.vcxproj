@@ -128,12 +128,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="include\Game.cpp" />
+    <ClCompile Include="src\CircleObject.cpp" />
     <ClCompile Include="src\DebugDraw.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\PhysicsObject.cpp" />
     <ClCompile Include="src\RectangleObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\CircleObject.h" />
     <ClInclude Include="include\constants.h" />
     <ClInclude Include="include\DebugDraw.h" />
     <ClInclude Include="include\Game.h" />

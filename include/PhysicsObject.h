@@ -21,6 +21,8 @@ public:
 	float GetAngle() const;
 	float GetAngularVelocity() const;
 
+	b2Body* GetBody() const;
+
 
 protected:
 	b2Body* body;

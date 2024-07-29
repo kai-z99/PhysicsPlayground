@@ -82,8 +82,8 @@ void DebugDraw::DrawTransform(const b2Transform& xf)
 
 void DebugDraw::DrawPoint(const b2Vec2& p, float size, const b2Color& color)
 {
-	sf::CircleShape c = sf::CircleShape(size * scale);
-	c.setOrigin(size * scale, size * scale);
+	sf::CircleShape c = sf::CircleShape(size);
+	c.setOrigin(size, size);
 	c.setPosition(p.x * scale, p.y * scale);
 	c.setFillColor(sf::Color(color.r * 255, color.g * 255, color.b * 255, color.a * 255));
 
