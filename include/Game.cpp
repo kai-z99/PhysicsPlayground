@@ -19,12 +19,12 @@ Game::Game()
 
 	this->scene = new Scene(this);
 	this->scene->SwitchTo(1); //temp
+
+	this->frameCount = 0;
 }
 
 Game::~Game()
 {
-
-
 }
 
 
@@ -35,8 +35,6 @@ void Game::Run()
 	//func
 	while (window->isOpen())
 	{
-		this->mousePosition = sf::Mouse::getPosition(*this->window);
-
 		while (window->pollEvent(this->currentEvent))
 		{
 			if (this->currentEvent.type == sf::Event::Closed)
@@ -49,7 +47,7 @@ void Game::Run()
 		//temp
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
-			this->scene->SwitchTo(2);
+			this->scene->SwitchTo(3);
 		}
 			
 		this->Update();
@@ -67,8 +65,11 @@ void Game::Draw()
 
 void Game::Update()
 {
+	this->mousePosition = sf::Mouse::getPosition(*this->window);
+	this->frameCount++;
+
 	//handle input
-	this->scene->Update();
+	this->scene->Update(this->frameCount);
 }
 
 sf::RenderWindow* Game::GetWindow()

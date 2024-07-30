@@ -17,7 +17,7 @@ public:
 	void Shutdown();
 
 	void Draw(sf::RenderWindow& window);
-	void Update();
+	void Update(unsigned int frameCount);
 
 
 private:
@@ -34,8 +34,10 @@ private:
 
 	
 	void UpdateLevelSpecifics(int id);
+
 	bool wasButtonPressed = false;
 
+	void CreateMouseJointOnClick(PhysicsObject* target, PhysicsObject* reference, float stiffness, float damping);
 	void CreateMouseJoint(PhysicsObject* target, PhysicsObject* reference, float stiffness, float damping);
 
 	void DrawMouseCoordinates(sf::RenderWindow& window);
@@ -44,6 +46,5 @@ private:
 	void Load(int id);
 
 	int currentScene;
-
-	
+	unsigned int sceneFramecount;
 };

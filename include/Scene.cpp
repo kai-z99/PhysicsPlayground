@@ -6,6 +6,7 @@
 #include "../include/DebugDraw.h"
 #include "../include/constants.h"
 #include "../include/Game.h"
+#include "../include/helpers.h"
 
 #include <iostream>
 
@@ -17,6 +18,7 @@ Scene::Scene(Game* g)
 	this->world->SetDebugDraw(this->game->GetDebugDraw());
 
 	this->mouseCoordinates = { (float)this->game->GetMousePosition().x / (float)Constants::scale, (float)this->game->GetMousePosition().y / (float)Constants::scale };
+	this->sceneFramecount = 0;
 
 	this->lines = {};
 
@@ -71,8 +73,9 @@ void Scene::DrawMouseCoordinates(sf::RenderWindow& window)
 	window.draw(text);
 }
 
-void Scene::Update()
+void Scene::Update(unsigned int frameCount)
 {
+	this->sceneFramecount++;
 	this->mouseCoordinates.x = (float)this->game->GetMousePosition().x / Constants::scale;
 	this->mouseCoordinates.y = (float)this->game->GetMousePosition().y / Constants::scale;
 
@@ -108,67 +111,51 @@ void Scene::UpdateLevelSpecifics(int id)
 	{
 	case 2:
 	{
-		//sf::Event event;
-		//while ((this->game->GetWindow()->pollEvent(event)))
-		//{
-		//	std::cout << "in\n";
-
-		//	if (this->game->GetCurrentEvent().type == sf::Event::MouseButtonPressed && this->game->GetCurrentEvent().mouseButton.button == sf::Mouse::Left)
-		//	{
-		//		PhysicsObject* circle = this->objects[0];
-		//		PhysicsObject* tiny = this->objects[2];
-
-		//		this->CreateMouseJoint(circle, tiny);
-		//		
-		//	}
-
-		//	else if (this->game->GetCurrentEvent().type == sf::Event::MouseButtonReleased && this->game->GetCurrentEvent().mouseButton.button == sf::Mouse::Left)
-		//	{
-		//		//destroy all mosue joints
-		//		for (b2Joint* mj : this->joints)
-		//		{
-		//			if (mj->GetType() == e_mouseJoint)
-		//			{
-		//				this->world->DestroyJoint(mj);
-		//				mj = nullptr;
-		//			}
-		//		}
-		//	}
-		//}
-
-		bool isButtonPressed = sf::Mouse::isButtonPressed(sf::Mouse::Left);
-
-		if (isButtonPressed && !this->wasButtonPressed)
-		{
-			PhysicsObject* circle = this->objects[0];
-			PhysicsObject* tiny = this->objects[2];
-
-			this->CreateMouseJoint(circle, tiny, 50000.0f, 5000.0f );
-		}
-
-		else if (!isButtonPressed && this->wasButtonPressed)
-		{
-			//destroy all mosue joints
-			for (b2Joint* mj : this->joints)
-			{
-				if (mj->GetType() == e_mouseJoint)
-				{
-					this->world->DestroyJoint(mj);
-					mj = nullptr;
-				}
-			}
-		}
-
-		this->wasButtonPressed = isButtonPressed;
-
-
-
-
+		this->CreateMouseJointOnClick(this->objects[0], this->objects[2], 10000.0f, 5000.f);
 		break;
 	}
+	case 3:
+	{
+		b2Vec2 center = { 35.0f, 30.f };
+
+		for (int i = 0; i <= 3; i++)
+		{
+			this->objects[i]->SetAngle(this->objects[i]->GetAngle() - 0.01f);
+
+			b2Vec2 currentPosition = this->objects[i]->GetPosition();
+			b2Vec2 newPosition = RotatePoint(currentPosition, center, 0.01f);
+
+			this->objects[i]->SetPosition(newPosition);
+		}
+
+		this->CreateMouseJointOnClick(this->objects[4], this->objects[5], 10000.0f, 5000.0f);
+	}
+	}
+}
+
+void Scene::CreateMouseJointOnClick(PhysicsObject* target, PhysicsObject* reference, float stiffness, float damping)
+{
+	bool isButtonPressed = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+
+	if (isButtonPressed && !this->wasButtonPressed)
+	{
+		this->CreateMouseJoint(target, reference, stiffness, damping);
 	}
 
+	else if (!isButtonPressed && this->wasButtonPressed)
+	{
+		//destroy all mosue joints
+		for (b2Joint* mj : this->joints)
+		{
+			if (mj->GetType() == e_mouseJoint)
+			{
+				this->world->DestroyJoint(mj);
+				mj = nullptr;
+			}
+		}
+	}
 
+	this->wasButtonPressed = isButtonPressed;
 }
 
 void Scene::CreateMouseJoint(PhysicsObject* target, PhysicsObject* reference, float stiffness, float damping)
@@ -194,6 +181,7 @@ void Scene::SwitchTo(int id)
 	this->Unload();
 	this->Load(id);
 	this->currentScene = id;
+	this->sceneFramecount = 0;
 }
 
 
@@ -212,7 +200,8 @@ void Scene::Load(int id)
 	}
 
 	case 2:
-		CircleObject * c = new CircleObject(*this->world, {30.0f, 10.0f}, 2.0f, b2_dynamicBody, 0.5f, 0.5f, 1000.0f);
+	{
+		CircleObject* c = new CircleObject(*this->world, { 30.0f, 10.0f }, 2.0f, b2_dynamicBody, 0.5f, 0.5f, 1000.0f);
 		RectangleObject* ground = new RectangleObject(*this->world, { 30.0f, 30.0f }, { 20.0f,1.0f }, b2_staticBody);
 		RectangleObject* ref = new RectangleObject(*this->world, { 100.0f, 30.0f }, { 0.1f,0.1f }, b2_staticBody);
 
@@ -220,9 +209,29 @@ void Scene::Load(int id)
 		this->objects.push_back(ground);
 		this->objects.push_back(ref);
 		break;
+	}
+		
 
+	case 3:
+	{
+		RectangleObject* bw = new RectangleObject(*this->world, { 35.0f, 40.0f }, { 20.0f,1.0f }, b2_kinematicBody);
+		RectangleObject* rw = new RectangleObject(*this->world, { 45.0f, 30.0f }, { 1.0f,20.0f }, b2_kinematicBody);
+		RectangleObject* lw = new RectangleObject(*this->world, { 25.0f, 30.0f }, { 1.0f, 20.0f }, b2_kinematicBody);
+		RectangleObject* tw = new RectangleObject(*this->world, { 35.0f, 20.0f }, { 20.0f, 1.0f }, b2_kinematicBody);
 
+		this->objects.push_back(bw);
+		this->objects.push_back(rw);
+		this->objects.push_back(lw);
+		this->objects.push_back(tw);
 
+		CircleObject* c = new CircleObject(*this->world, {35.0f, 30.0f}, 2.0f, b2_dynamicBody, 0.4f, 0.4f, 1000.0f );
+		this->objects.push_back(c);
+
+		RectangleObject* ref = new RectangleObject(*this->world, { 100.0f, 30.0f }, { 0.1f,0.1f }, b2_staticBody);
+		this->objects.push_back(ref);
+
+		break;
+	}
 	}
 }
 

@@ -20,6 +20,8 @@ public:
 	sf::Event& GetCurrentEvent();
 
 private:
+	unsigned int frameCount;
+
 	sf::RenderWindow* window;
 	sf::Vector2i mousePosition;
 

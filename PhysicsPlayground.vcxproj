@@ -131,6 +131,7 @@
     <ClCompile Include="include\Scene.cpp" />
     <ClCompile Include="src\CircleObject.cpp" />
     <ClCompile Include="src\DebugDraw.cpp" />
+    <ClCompile Include="src\helpers.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\PhysicsObject.cpp" />
     <ClCompile Include="src\RectangleObject.cpp" />
@@ -140,6 +141,7 @@
     <ClInclude Include="include\constants.h" />
     <ClInclude Include="include\DebugDraw.h" />
     <ClInclude Include="include\Game.h" />
+    <ClInclude Include="include\helpers.h" />
     <ClInclude Include="include\PhysicsObject.h" />
     <ClInclude Include="include\RectangleObject.h" />
     <ClInclude Include="include\Scene.h" />
