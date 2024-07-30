@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="include\Game.cpp" />
+    <ClCompile Include="include\Scene.cpp" />
     <ClCompile Include="src\CircleObject.cpp" />
     <ClCompile Include="src\DebugDraw.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -141,6 +142,7 @@
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\PhysicsObject.h" />
     <ClInclude Include="include\RectangleObject.h" />
+    <ClInclude Include="include\Scene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
