@@ -6,6 +6,7 @@
 class Game;
 class PhysicsObject;
 class DebugDraw;
+class Slider;
 
 class Scene
 {
@@ -26,6 +27,7 @@ private:
 	std::vector<PhysicsObject*> objects;
 	std::vector<b2Joint*> joints;
 	std::vector<sf::Vertex> lines;
+	std::vector<Slider*> sliders; //temp
 
 	b2World* world;
 

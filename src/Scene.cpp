@@ -3,10 +3,12 @@
 #include "../include/Scene.h"
 #include "../include/RectangleObject.h"
 #include "../include/CircleObject.h"
+#include "../include/LoopObject.h"
 #include "../include/DebugDraw.h"
 #include "../include/constants.h"
 #include "../include/Game.h"
 #include "../include/helpers.h"
+#include "../include/Slider.h"
 
 #include <iostream>
 
@@ -49,6 +51,11 @@ Scene::Scene(Game* g)
 
 	this->currentScene = 1;
 
+	this->sliders.push_back(new Slider({ Constants::menuX + 200, 200 }, 300, 0.7f));
+	this->sliders.push_back(new Slider({ Constants::menuX + 200, 400 }, 300, 0.7f));
+	this->sliders.push_back(new Slider({ Constants::menuX + 200, 600 }, 300, 0.7f));
+	this->sliders.push_back(new Slider({ Constants::menuX + 200, 800 }, 300, 0.7f));
+
 }
 
 void Scene::Draw(sf::RenderWindow& window)
@@ -56,6 +63,12 @@ void Scene::Draw(sf::RenderWindow& window)
 	window.clear(sf::Color::White);
 	window.draw(&(lines[0]), lines.size(), sf::Lines);
 	this->world->DebugDraw();
+
+	for (Slider* s : this->sliders)
+	{
+		s->Draw(window);
+	}
+
 	this->DrawMouseCoordinates(window);
 }
 
@@ -103,6 +116,11 @@ void Scene::Update(unsigned int frameCount)
 	this->UpdateLevelSpecifics(this->currentScene);
 
 	this->world->Step(1.0f/60.f, 8,8);
+
+	for (Slider* s : this->sliders)
+	{
+		s->Update(this->game->GetMousePosition(), this->game->GetMouseStatus());
+	}
 }
 
 void Scene::UpdateLevelSpecifics(int id)
@@ -130,6 +148,11 @@ void Scene::UpdateLevelSpecifics(int id)
 
 		this->CreateMouseJointOnClick(this->objects[4], this->objects[5], 10000.0f, 5000.0f);
 	}
+
+	case 4:
+	{
+		this->CreateMouseJointOnClick(this->objects[1], this->objects[2], 1000.0f, 100.f);
+	}
 	}
 }
 
@@ -137,7 +160,7 @@ void Scene::CreateMouseJointOnClick(PhysicsObject* target, PhysicsObject* refere
 {
 	bool isButtonPressed = sf::Mouse::isButtonPressed(sf::Mouse::Left);
 
-	if (isButtonPressed && !this->wasButtonPressed)
+	if (isButtonPressed && !this->wasButtonPressed && this->game->GetMousePosition().x < Constants::menuX)
 	{
 		this->CreateMouseJoint(target, reference, stiffness, damping);
 	}
@@ -232,6 +255,27 @@ void Scene::Load(int id)
 
 		break;
 	}
+
+	case 4:
+	{
+		LoopObject* loop = new LoopObject(*this->world, { Constants::menuX / Constants::scale / 2.0f, 30.0f }, 10.0f, 50, b2_staticBody, 0.9f);
+		this->objects.push_back(loop);
+
+		CircleObject* c = new CircleObject(*this->world, {loop->GetPosition().x, loop->GetPosition().y + 10.0f - 1.0f}, 1.0f, b2_dynamicBody, 0.9f, 0.4f, 100.0f);
+		this->objects.push_back(c);
+
+		RectangleObject* ref = new RectangleObject(*this->world, { 100.0f, 30.0f }, { 0.1f,0.1f }, b2_staticBody);
+		this->objects.push_back(ref);
+
+		
+
+
+
+		break;
+	}
+		
+
+
 	}
 }
 

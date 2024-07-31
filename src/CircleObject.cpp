@@ -18,6 +18,9 @@ CircleObject::CircleObject(b2World& world, const b2Vec2& position, float radius,
 	fixture.density = density;
 
 	this->body->CreateFixture(&fixture);
+
+	this->position.x = position.x;
+	this->position.y = position.y;
 }
 
 CircleObject::~CircleObject()

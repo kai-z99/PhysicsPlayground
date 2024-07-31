@@ -20,6 +20,7 @@ public:
 	b2Vec2 GetAcceleration() const;
 	float GetAngle() const;
 	float GetAngularVelocity() const;
+	float GetMass() const;
 
 	b2Body* GetBody() const;
 

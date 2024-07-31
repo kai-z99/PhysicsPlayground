@@ -4,6 +4,7 @@
 #include "../include/Scene.h"
 #include "../include/DebugDraw.h"
 
+#include <iostream>
 Game::Game()
 {
 	this->window = new sf::RenderWindow(sf::VideoMode(Constants::screenWidth, Constants::screenHeight), "Box2D Simulation", sf::Style::Default);
@@ -18,9 +19,11 @@ Game::Game()
 	}
 
 	this->scene = new Scene(this);
-	this->scene->SwitchTo(1); //temp
+	this->scene->SwitchTo(4); //temp
 
 	this->frameCount = 0;
+
+	this->mouseStatus = None;
 }
 
 Game::~Game()
@@ -35,6 +38,16 @@ void Game::Run()
 	//func
 	while (window->isOpen())
 	{
+		//update mouse click status
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+		{
+			this->mouseStatus = Hold;
+		}
+		else if (!sf::Mouse::isButtonPressed(sf::Mouse::Left))
+		{
+			this->mouseStatus = None;
+		}
+
 		while (window->pollEvent(this->currentEvent))
 		{
 			if (this->currentEvent.type == sf::Event::Closed)
@@ -42,14 +55,41 @@ void Game::Run()
 				window->close();
 			}
 
+			else if (this->currentEvent.type == sf::Event::MouseButtonPressed && this->currentEvent.mouseButton.button == sf::Mouse::Left)
+			{
+				this->mouseStatus = Click;
+			}
+
+			else if (this->currentEvent.type == sf::Event::MouseButtonReleased && this->currentEvent.mouseButton.button == sf::Mouse::Left)
+			{
+				this->mouseStatus = Release;
+			}
 		}
+
+		//switch (this->mouseStatus)
+		//{
+		//case Hold:
+		//	std::cout << "Hold\n";
+		//	break;
+		//case None:
+		//	std::cout << "None\n";
+		//	break;
+		//case Click:
+		//	std::cout << "Click\n";
+		//	break;
+		//case Release:
+		//	std::cout << "Release\n";
+		//	break;
+		//}
+		
 
 		//temp
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
 			this->scene->SwitchTo(3);
 		}
-			
+
+
 		this->Update();
 		this->Draw();
 	}
@@ -95,4 +135,9 @@ sf::Font* Game::GetFont()
 sf::Event& Game::GetCurrentEvent()
 {
 	return this->currentEvent;
+}
+
+MouseStatus Game::GetMouseStatus() const
+{
+	return this->mouseStatus;
 }

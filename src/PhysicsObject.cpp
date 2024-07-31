@@ -64,6 +64,11 @@ float PhysicsObject::GetAngularVelocity() const
 	return this->angularVelocity;
 }
 
+float PhysicsObject::GetMass() const
+{
+	return this->body->GetMass();
+}
+
 b2Body* PhysicsObject::GetBody() const
 {
 	return this->body;

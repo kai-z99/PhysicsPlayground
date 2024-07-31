@@ -1,7 +1,11 @@
 #pragma once
 
+#include "helpers.h"
+
 class Scene; //EACH SCENE HAS A WORLD AND OBJECTS VEC. COMMON: MENU
 class DebugDraw;
+
+
 
 class Game
 {
@@ -18,6 +22,7 @@ public:
 	DebugDraw* GetDebugDraw();
 	sf::Font* GetFont();
 	sf::Event& GetCurrentEvent();
+	MouseStatus GetMouseStatus() const;
 
 private:
 	unsigned int frameCount;
@@ -29,4 +34,6 @@ private:
 	DebugDraw* debugDraw;
 	sf::Font* font;
 	sf::Event currentEvent;
+
+	MouseStatus mouseStatus;
 };
