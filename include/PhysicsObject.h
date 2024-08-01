@@ -1,13 +1,16 @@
 #pragma once
 
 #include "box2d/box2d.h"
-
+#include "SFML/Graphics.hpp"
 
 class PhysicsObject
 {
 public:
-	virtual void Draw() = 0;
+	virtual void Draw(sf::RenderWindow& window) = 0;
 	virtual void Update();
+
+	void ApplyForce(b2Vec2 force, b2Vec2 point);
+	void ApplyForce(b2Vec2 force);
 
 	void SetPosition(const b2Vec2& pos);
 	void SetVelocity(const b2Vec2& vel);

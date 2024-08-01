@@ -26,7 +26,7 @@ RectangleObject::~RectangleObject()
 {
 }
 
-void RectangleObject::Draw()
+void RectangleObject::Draw(sf::RenderWindow& window)
 {
 }
 

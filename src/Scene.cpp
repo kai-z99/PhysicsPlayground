@@ -9,6 +9,7 @@
 #include "../include/Game.h"
 #include "../include/helpers.h"
 #include "../include/Slider.h"
+#include "../include/TextButton.h"
 
 #include <iostream>
 
@@ -51,11 +52,13 @@ Scene::Scene(Game* g)
 
 	this->currentScene = 1;
 
-	this->sliders.push_back(new Slider({ Constants::menuX + 200, 200 }, 300, 0.7f));
-	this->sliders.push_back(new Slider({ Constants::menuX + 200, 400 }, 300, 0.7f));
-	this->sliders.push_back(new Slider({ Constants::menuX + 200, 600 }, 300, 0.7f));
-	this->sliders.push_back(new Slider({ Constants::menuX + 200, 800 }, 300, 0.7f));
+	this->sliders.push_back(new Slider({ Constants::menuX + 200, 200 }, 300, 0.4f, *this->game->GetFont(), "Initial Force (N)"));
+	this->sliders.push_back(new Slider({ Constants::menuX + 200, 400 }, 300, 0.7f, *this->game->GetFont()));
+	this->sliders.push_back(new Slider({ Constants::menuX + 200, 600 }, 300, 0.7f, *this->game->GetFont()));
+	this->sliders.push_back(new Slider({ Constants::menuX + 200, 800 }, 300, 0.7f, *this->game->GetFont()));
 
+
+	this->buttons.push_back(new TextButton("GO!", { Constants::menuX + 200, 100 }, { 200,100 }, *this->game->GetFont()));
 }
 
 void Scene::Draw(sf::RenderWindow& window)
@@ -64,10 +67,21 @@ void Scene::Draw(sf::RenderWindow& window)
 	window.draw(&(lines[0]), lines.size(), sf::Lines);
 	this->world->DebugDraw();
 
+	for (PhysicsObject* obj : this->objects)
+	{
+		obj->Draw(window);
+	}
+
 	for (Slider* s : this->sliders)
 	{
 		s->Draw(window);
 	}
+
+	for (TextButton* t : this->buttons)
+	{
+		t->Draw(window);
+	}
+
 
 	this->DrawMouseCoordinates(window);
 }
@@ -97,6 +111,7 @@ void Scene::Update(unsigned int frameCount)
 		obj->Update();
 	}
 
+
 	for (b2Joint* joint : joints)
 	{
 		if (joint != nullptr)
@@ -121,6 +136,12 @@ void Scene::Update(unsigned int frameCount)
 	{
 		s->Update(this->game->GetMousePosition(), this->game->GetMouseStatus());
 	}
+
+	for (TextButton* t : this->buttons)
+	{
+		t->Update(this->game->GetMousePosition(), this->game->GetMouseStatus());
+	}
+
 }
 
 void Scene::UpdateLevelSpecifics(int id)
@@ -151,7 +172,24 @@ void Scene::UpdateLevelSpecifics(int id)
 
 	case 4:
 	{
+		static float impulseStrength = 1250000.0f;
+
 		this->CreateMouseJointOnClick(this->objects[1], this->objects[2], 1000.0f, 100.f);
+
+		if (this->buttons[0]->GetIsPressed())
+		{
+			this->objects[1]->ApplyForce({ impulseStrength,0.0f });
+		}
+
+		if (this->game->GetMouseStatus() == Release || this->sceneFramecount == 1)
+		{
+			//apply physics based on sliders
+			impulseStrength = this->sliders[0]->GetProgress() * 1250000.0f;
+
+			
+		}
+		
+
 	}
 	}
 }

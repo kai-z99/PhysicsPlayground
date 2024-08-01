@@ -137,8 +137,10 @@
     <ClCompile Include="src\RectangleObject.cpp" />
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\Slider.cpp" />
+    <ClCompile Include="src\TextButton.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\CentripetalForce.h" />
     <ClInclude Include="include\CircleObject.h" />
     <ClInclude Include="include\constants.h" />
     <ClInclude Include="include\DebugDraw.h" />
@@ -149,6 +151,7 @@
     <ClInclude Include="include\RectangleObject.h" />
     <ClInclude Include="include\Scene.h" />
     <ClInclude Include="include\Slider.h" />
+    <ClInclude Include="include\TextButton.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

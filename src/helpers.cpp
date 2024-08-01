@@ -24,3 +24,8 @@ bool CheckCollisionCirclePoint(const sf::CircleShape& circle, const sf::Vector2i
     return distanceSquared <= radius * radius;
 
 }
+
+//bool CheckCollisionRecPoint(const sf::RectangleShape& rec, const sf::Vector2i& point)
+//{
+//   //
+//}

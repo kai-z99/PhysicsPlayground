@@ -5,7 +5,7 @@
 class Slider
 {
 public:
-	Slider(sf::Vector2f position, int length, float initialProgress);
+	Slider(const sf::Vector2f& position, int length, float initialProgress, const sf::Font& font, std::string label = "LABEL HERE");
 	~Slider();
 
 	void Update(sf::Vector2i mousePos, MouseStatus mouseStatus);
@@ -21,6 +21,8 @@ private:
 	float progress; //from 0.0 to 1.0
 
 	sf::CircleShape knob;
+	sf::RectangleShape line;
+	sf::Text label;
 
 	bool isHeld;
 

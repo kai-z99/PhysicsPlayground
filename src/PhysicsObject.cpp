@@ -9,6 +9,16 @@ void PhysicsObject::Update()
 	this->angularVelocity = this->body->GetAngularVelocity();
 }
 
+void PhysicsObject::ApplyForce(b2Vec2 force, b2Vec2 point)
+{
+	this->body->ApplyForce(force, point, true);
+}
+
+void PhysicsObject::ApplyForce(b2Vec2 force)
+{
+	this->body->ApplyForceToCenter(force, true);
+}
+
 void PhysicsObject::SetPosition(const b2Vec2& pos)
 {
 	if (this->body)

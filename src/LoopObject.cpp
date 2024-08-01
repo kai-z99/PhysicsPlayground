@@ -38,7 +38,7 @@ LoopObject::~LoopObject()
 {
 }
 
-void LoopObject::Draw()
+void LoopObject::Draw(sf::RenderWindow& window)
 {
 }
 

@@ -7,6 +7,7 @@ class Game;
 class PhysicsObject;
 class DebugDraw;
 class Slider;
+class TextButton;
 
 class Scene
 {
@@ -21,13 +22,14 @@ public:
 	void Update(unsigned int frameCount);
 
 
-private:
+protected:
 	Game* game;
 
 	std::vector<PhysicsObject*> objects;
 	std::vector<b2Joint*> joints;
 	std::vector<sf::Vertex> lines;
 	std::vector<Slider*> sliders; //temp
+	std::vector<TextButton*> buttons;
 
 	b2World* world;
 

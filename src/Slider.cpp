@@ -2,17 +2,28 @@
 #include "../include/helpers.h"
 
 
-Slider::Slider(sf::Vector2f position, int length, float initialProgress)
+Slider::Slider(const sf::Vector2f& position, int length, float initialProgress, const sf::Font& font, std::string label)
 {
 	this->progress = initialProgress;
 	this->length = length;
 	this->position = position;
+
 	this->knob = sf::CircleShape(10.0f);
 	this->knob.setPosition(this->position.x - (this->length / 2) + (this->progress * this->length), this->position.y);
 	this->knob.setOrigin(10.0f, 10.0f);
 	this->knob.setFillColor(sf::Color::Blue);
 
+	this->line = sf::RectangleShape({ (float)this->length, 7.5f });
+	line.setPosition(this->position);
+	line.setOrigin(line.getSize().x / 2, line.getSize().y / 2);
+	line.setFillColor(sf::Color::Black);
+
 	this->isHeld = false;
+
+
+	this->label = sf::Text(label, font, 22U);
+	this->label.setFillColor(sf::Color::Black);
+	this->label.setPosition(this->position.x - (this->label.getLocalBounds().width / 2), this->position.y - 40.0f);
 }
 
 void Slider::Update(sf::Vector2i mousePos, MouseStatus mouseStatus)
@@ -56,13 +67,9 @@ void Slider::Update(sf::Vector2i mousePos, MouseStatus mouseStatus)
 
 void Slider::Draw(sf::RenderWindow& window)
 {
-	sf::RectangleShape line = sf::RectangleShape({(float)this->length, 7.5f});
-	line.setPosition(this->position);
-	line.setOrigin(line.getSize().x / 2, line.getSize().y / 2);
-	line.setFillColor(sf::Color::Black);
-	
-	window.draw(line);
+	window.draw(this->line);
 	window.draw(this->knob);
+	window.draw(this->label);
 }
 
 float Slider::GetProgress() const
