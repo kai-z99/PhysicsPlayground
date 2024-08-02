@@ -80,6 +80,20 @@ void PhysicsObject::SetFriction(float friction)
 	body->ResetMassData();
 }
 
+void PhysicsObject::SetRestitution(float restitution)
+{
+	b2Fixture* fixture = body->GetFixtureList();
+
+	while (fixture)
+	{
+		fixture->SetRestitution(restitution);
+		fixture = fixture->GetNext();
+	}
+
+	body->ResetMassData();
+}
+
+
 b2Vec2 PhysicsObject::GetPosition() const
 {
 	return this->position;

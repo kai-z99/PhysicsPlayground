@@ -109,7 +109,7 @@ void Scene::Update(unsigned int frameCount)
 		
 	}
 
-	this->world->Step(1.0f/60.f, 20,20);
+	this->world->Step(1.0f/60.f, 4,8);
 
 	for (Slider* s : this->sliders)
 	{

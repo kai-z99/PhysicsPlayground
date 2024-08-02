@@ -11,6 +11,7 @@ public:
 	void Update(unsigned int frameCount) override;
 
 private:
-
+	b2Vec2 LStartPos;
+	b2Vec2 RStartPos;
 
 };

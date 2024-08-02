@@ -21,6 +21,7 @@ public:
 	void SetAngle(float ang);
 	void SetDensity(float density);
 	void SetFriction(float friction);
+	void SetRestitution(float restitution);
 
 	b2Vec2 GetPosition() const;
 	b2Vec2 GetVelocity() const;
