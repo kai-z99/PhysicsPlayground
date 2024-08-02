@@ -1,5 +1,5 @@
 #include "../include/helpers.h"
-
+#include <sstream>
 
 b2Vec2 RotatePoint(b2Vec2& point, b2Vec2 center, float angle) //helper
 {
@@ -22,6 +22,16 @@ bool CheckCollisionCirclePoint(const sf::CircleShape& circle, const sf::Vector2i
     float distanceSquared = (point.x - center.x) * (point.x - center.x) + (point.y - center.y) * (point.y - center.y);
 
     return distanceSquared <= radius * radius;
+
+}
+
+std::string FloatToRoundedString(float f)
+{
+    std::ostringstream oss;
+    oss.precision(2);
+    oss << std::fixed << f;
+    return oss.str();
+
 
 }
 

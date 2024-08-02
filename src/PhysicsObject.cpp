@@ -1,5 +1,10 @@
 #include "../include/PhysicsObject.h"
 
+PhysicsObject::~PhysicsObject()
+{
+
+}
+
 void PhysicsObject::Update()
 {
 	this->position = this->body->GetPosition();
@@ -47,6 +52,32 @@ void PhysicsObject::SetAngle(float ang)
 	}
 
 	this->angle = ang;
+}
+
+void PhysicsObject::SetDensity(float density)
+{
+	b2Fixture* fixture = body->GetFixtureList();
+
+	while (fixture)
+	{
+		fixture->SetDensity(density);
+		fixture = fixture->GetNext();
+	}
+
+	body->ResetMassData();
+}
+
+void PhysicsObject::SetFriction(float friction)
+{
+	b2Fixture* fixture = body->GetFixtureList();
+
+	while (fixture)
+	{
+		fixture->SetFriction(friction);
+		fixture = fixture->GetNext();
+	}
+
+	body->ResetMassData();
 }
 
 b2Vec2 PhysicsObject::GetPosition() const

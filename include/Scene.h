@@ -12,43 +12,35 @@ class TextButton;
 class Scene
 {
 public:
-	Scene(Game* g);
-	~Scene();
+	//Clears and destroys vector pointers and world, removes bodies from world.
+	virtual ~Scene();
 
-	void SwitchTo(int id);
-	void Shutdown();
+	//Draws bg lines, debug, objs, sliders, buttons, and mouse coords and title.
+	virtual void Draw(sf::RenderWindow& window);
 
-	void Draw(sf::RenderWindow& window);
-	void Update(unsigned int frameCount);
+	//update objects etc
+	virtual void Update(unsigned int frameCount);
 
 
 protected:
 	Game* game;
 
+	b2World* world;
 	std::vector<PhysicsObject*> objects;
 	std::vector<b2Joint*> joints;
 	std::vector<sf::Vertex> lines;
 	std::vector<Slider*> sliders; //temp
 	std::vector<TextButton*> buttons;
 
-	b2World* world;
-
+	
 	DebugDraw* debugDraw;
 	sf::Vector2f mouseCoordinates;
-
-	
-	void UpdateLevelSpecifics(int id);
-
-	bool wasButtonPressed = false;
+	sf::Text title;
 
 	void CreateMouseJointOnClick(PhysicsObject* target, PhysicsObject* reference, float stiffness, float damping);
 	void CreateMouseJoint(PhysicsObject* target, PhysicsObject* reference, float stiffness, float damping);
 
 	void DrawMouseCoordinates(sf::RenderWindow& window);
 
-	void Unload();
-	void Load(int id);
-
-	int currentScene;
 	unsigned int sceneFramecount;
 };

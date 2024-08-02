@@ -1,7 +1,8 @@
 #include "SFML/Graphics.hpp"
 #include "../include/constants.h"
 #include "../include/Game.h"
-#include "../include/Scene.h"
+#include "../include/CentripetalForce.h"
+#include "../include/Momentum.h"
 #include "../include/DebugDraw.h"
 
 #include <iostream>
@@ -10,20 +11,27 @@ Game::Game()
 	this->window = new sf::RenderWindow(sf::VideoMode(Constants::screenWidth, Constants::screenHeight), "Box2D Simulation", sf::Style::Default);
 	this->debugDraw = new DebugDraw(*window, Constants::scale);
 
+	//MOUSE
 	this->mousePosition = sf::Mouse::getPosition();
+	this->mouseStatus = None;
 
+	//FONT
 	this->font = new sf::Font();
 	if (!font->loadFromFile("resources/badFont.ttf"))
 	{
 		; //font not loaded
 	}
 
-	this->scene = new Scene(this);
-	this->scene->SwitchTo(4); //temp
-
 	this->frameCount = 0;
 
-	this->mouseStatus = None;
+	this->scene = nullptr;
+	
+}
+
+void Game::Init()
+{
+	//this->scene = new CentripetalForce(this); //temp
+	this->scene = new Momentum(this); //temp
 }
 
 Game::~Game()
@@ -81,13 +89,6 @@ void Game::Run()
 		//	std::cout << "Release\n";
 		//	break;
 		//}
-		
-
-		//temp
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-		{
-			this->scene->SwitchTo(3);
-		}
 
 
 		this->Update();
@@ -140,4 +141,36 @@ sf::Event& Game::GetCurrentEvent()
 MouseStatus Game::GetMouseStatus() const
 {
 	return this->mouseStatus;
+}
+
+std::vector<sf::Vertex> Game::GetBGLines()
+{
+	std::vector<sf::Vertex> lines = {};
+
+	lines.push_back(sf::Vertex(sf::Vector2f(Constants::menuX, 0), sf::Color::Black));
+	lines.push_back(sf::Vertex(sf::Vector2f(Constants::menuX, Constants::screenHeight), sf::Color::Black));
+
+	sf::Color transparentBlack = sf::Color(0, 0, 0, 60);
+
+	for (int i = 0; i <= Constants::screenHeight; i += Constants::scale)
+	{
+		sf::Vertex horizontalLineP1 = sf::Vertex(sf::Vector2f(0, i), transparentBlack);
+		sf::Vertex horizontalLineP2 = sf::Vertex(sf::Vector2f(Constants::menuX, i), transparentBlack);
+
+
+		lines.push_back(horizontalLineP1);
+		lines.push_back(horizontalLineP2);
+	}
+
+	for (int i = 0; i <= Constants::menuX; i += Constants::scale)
+	{
+		sf::Vertex verticalLineP1 = sf::Vertex(sf::Vector2f(i, 0), transparentBlack);
+		sf::Vertex verticalLineP2 = sf::Vertex(sf::Vector2f(i, Constants::screenHeight), transparentBlack);
+
+
+		lines.push_back(verticalLineP1);
+		lines.push_back(verticalLineP2);
+	}
+
+	return lines;
 }

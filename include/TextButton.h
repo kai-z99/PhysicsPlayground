@@ -10,6 +10,7 @@ public:
 	void Update(const sf::Vector2i& mousePos, MouseStatus mouseState);
 	void Draw(sf::RenderWindow& window);
 
+	void SetFontSize(unsigned int size);
 	bool GetIsPressed() const;
 	
 

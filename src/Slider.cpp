@@ -2,7 +2,7 @@
 #include "../include/helpers.h"
 
 
-Slider::Slider(const sf::Vector2f& position, int length, float initialProgress, const sf::Font& font, std::string label)
+Slider::Slider(const sf::Vector2f& position, int length, float initialProgress, const sf::Font& font, std::string label, float value)
 {
 	this->progress = initialProgress;
 	this->length = length;
@@ -23,7 +23,15 @@ Slider::Slider(const sf::Vector2f& position, int length, float initialProgress, 
 
 	this->label = sf::Text(label, font, 22U);
 	this->label.setFillColor(sf::Color::Black);
-	this->label.setPosition(this->position.x - (this->label.getLocalBounds().width / 2), this->position.y - 40.0f);
+	this->label.setPosition(this->position.x - (this->label.getLocalBounds().width / 2), this->position.y - (this->label.getLocalBounds().height / 2) - 40.0f);
+
+	this->value = sf::Text(FloatToRoundedString(value), font, 22U);
+	this->value.setFillColor(sf::Color::Black);
+	this->value.setPosition(this->position.x - (this->value.getLocalBounds().width / 2), this->position.y - (this->label.getLocalBounds().height / 2) + 40.0f);
+}
+
+Slider::~Slider()
+{
 }
 
 void Slider::Update(sf::Vector2i mousePos, MouseStatus mouseStatus)
@@ -70,6 +78,7 @@ void Slider::Draw(sf::RenderWindow& window)
 	window.draw(this->line);
 	window.draw(this->knob);
 	window.draw(this->label);
+	window.draw(this->value);
 }
 
 float Slider::GetProgress() const
@@ -79,4 +88,13 @@ float Slider::GetProgress() const
 
 void Slider::SetProgress()
 {
+}
+
+void Slider::SetValue(float value)
+{
+
+	this->value.setString(FloatToRoundedString(value));
+
+	//cetner it
+	this->value.setPosition(this->position.x - (this->value.getLocalBounds().width / 2), this->position.y - (this->label.getLocalBounds().height / 2) + 40.0f);
 }

@@ -6,6 +6,8 @@
 class PhysicsObject
 {
 public:
+	virtual ~PhysicsObject();
+
 	virtual void Draw(sf::RenderWindow& window) = 0;
 	virtual void Update();
 
@@ -17,6 +19,8 @@ public:
 	void SetAcceleration(const b2Vec2& accel);
 	void SetAngularVelocity(float vel);
 	void SetAngle(float ang);
+	void SetDensity(float density);
+	void SetFriction(float friction);
 
 	b2Vec2 GetPosition() const;
 	b2Vec2 GetVelocity() const;

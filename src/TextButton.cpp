@@ -56,6 +56,12 @@ void TextButton::Draw(sf::RenderWindow& window)
 	window.draw(this->sfText);
 }
 
+void TextButton::SetFontSize(unsigned int size)
+{
+	this->sfText.setCharacterSize(size);
+	this->sfText.setPosition(this->position.x - (sfText.getLocalBounds().width / 2), this->position.y - (sfText.getLocalBounds().height / 2));
+}
+
 bool TextButton::GetIsPressed() const
 {
 	return this->isPressed;

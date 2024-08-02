@@ -13,6 +13,7 @@ public:
 	Game();
 	~Game();
 
+	void Init();
 	void Run();
 	void Draw();
 	void Update();
@@ -23,6 +24,7 @@ public:
 	sf::Font* GetFont();
 	sf::Event& GetCurrentEvent();
 	MouseStatus GetMouseStatus() const;
+	std::vector<sf::Vertex> GetBGLines();
 
 private:
 	unsigned int frameCount;

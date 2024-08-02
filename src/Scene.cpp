@@ -14,52 +14,33 @@
 #include <iostream>
 
 
-Scene::Scene(Game* g)
+Scene::~Scene()
 {
-	this->game = g;
-	this->world = new b2World({0.0f,10.0f});
-	this->world->SetDebugDraw(this->game->GetDebugDraw());
-
-	this->mouseCoordinates = { (float)this->game->GetMousePosition().x / (float)Constants::scale, (float)this->game->GetMousePosition().y / (float)Constants::scale };
-	this->sceneFramecount = 0;
-
-	this->lines = {};
-
-	this->lines.push_back(sf::Vertex(sf::Vector2f(Constants::menuX, 0), sf::Color::Black));
-	this->lines.push_back(sf::Vertex(sf::Vector2f(Constants::menuX, Constants::screenHeight), sf::Color::Black));
-
-	sf::Color transparentBlack = sf::Color(0, 0, 0, 60);
-
-	for (int i = 0; i <= Constants::screenHeight; i += Constants::scale)
+	//unload physics objects
+	for (PhysicsObject* obj : this->objects)
 	{
-		sf::Vertex horizontalLineP1 = sf::Vertex(sf::Vector2f(0, i), transparentBlack);
-		sf::Vertex horizontalLineP2 = sf::Vertex(sf::Vector2f(Constants::menuX, i), transparentBlack);
-
-
-		this->lines.push_back(horizontalLineP1);
-		this->lines.push_back(horizontalLineP2);
+		this->world->DestroyBody(obj->GetBody());
+		delete obj;
+		obj = nullptr;
 	}
 
-	for (int i = 0; i <= Constants::menuX; i += Constants::scale)
+	//unload sliders
+	for (Slider* s : this->sliders)
 	{
-		sf::Vertex verticalLineP1 = sf::Vertex(sf::Vector2f(i, 0), transparentBlack);
-		sf::Vertex verticalLineP2 = sf::Vertex(sf::Vector2f(i, Constants::screenHeight), transparentBlack);
-
-
-		this->lines.push_back(verticalLineP1);
-		this->lines.push_back(verticalLineP2);
+		delete s;
+		s = nullptr;
 	}
 
-	this->currentScene = 1;
+	//unload buttons
+	for (TextButton* b : this->buttons)
+	{
+		delete b;
+		b = nullptr;
+	}
 
-	this->sliders.push_back(new Slider({ Constants::menuX + 200, 200 }, 300, 0.4f, *this->game->GetFont(), "Initial Force (N)"));
-	this->sliders.push_back(new Slider({ Constants::menuX + 200, 400 }, 300, 0.7f, *this->game->GetFont()));
-	this->sliders.push_back(new Slider({ Constants::menuX + 200, 600 }, 300, 0.7f, *this->game->GetFont()));
-	this->sliders.push_back(new Slider({ Constants::menuX + 200, 800 }, 300, 0.7f, *this->game->GetFont()));
-
-
-	this->buttons.push_back(new TextButton("GO!", { Constants::menuX + 200, 100 }, { 200,100 }, *this->game->GetFont()));
+	delete this->world;
 }
+
 
 void Scene::Draw(sf::RenderWindow& window)
 {
@@ -82,7 +63,7 @@ void Scene::Draw(sf::RenderWindow& window)
 		t->Draw(window);
 	}
 
-
+	window.draw(this->title);
 	this->DrawMouseCoordinates(window);
 }
 
@@ -128,9 +109,7 @@ void Scene::Update(unsigned int frameCount)
 		
 	}
 
-	this->UpdateLevelSpecifics(this->currentScene);
-
-	this->world->Step(1.0f/60.f, 8,8);
+	this->world->Step(1.0f/60.f, 20,20);
 
 	for (Slider* s : this->sliders)
 	{
@@ -144,66 +123,16 @@ void Scene::Update(unsigned int frameCount)
 
 }
 
-void Scene::UpdateLevelSpecifics(int id)
-{
-	switch (id)
-	{
-	case 2:
-	{
-		this->CreateMouseJointOnClick(this->objects[0], this->objects[2], 10000.0f, 5000.f);
-		break;
-	}
-	case 3:
-	{
-		b2Vec2 center = { 35.0f, 30.f };
-
-		for (int i = 0; i <= 3; i++)
-		{
-			this->objects[i]->SetAngle(this->objects[i]->GetAngle() - 0.01f);
-
-			b2Vec2 currentPosition = this->objects[i]->GetPosition();
-			b2Vec2 newPosition = RotatePoint(currentPosition, center, 0.01f);
-
-			this->objects[i]->SetPosition(newPosition);
-		}
-
-		this->CreateMouseJointOnClick(this->objects[4], this->objects[5], 10000.0f, 5000.0f);
-	}
-
-	case 4:
-	{
-		static float impulseStrength = 1250000.0f;
-
-		this->CreateMouseJointOnClick(this->objects[1], this->objects[2], 1000.0f, 100.f);
-
-		if (this->buttons[0]->GetIsPressed())
-		{
-			this->objects[1]->ApplyForce({ impulseStrength,0.0f });
-		}
-
-		if (this->game->GetMouseStatus() == Release || this->sceneFramecount == 1)
-		{
-			//apply physics based on sliders
-			impulseStrength = this->sliders[0]->GetProgress() * 1250000.0f;
-
-			
-		}
-		
-
-	}
-	}
-}
-
 void Scene::CreateMouseJointOnClick(PhysicsObject* target, PhysicsObject* reference, float stiffness, float damping)
 {
 	bool isButtonPressed = sf::Mouse::isButtonPressed(sf::Mouse::Left);
 
-	if (isButtonPressed && !this->wasButtonPressed && this->game->GetMousePosition().x < Constants::menuX)
+	if (this->game->GetMouseStatus() == Click && this->game->GetMousePosition().x < Constants::menuX)
 	{
 		this->CreateMouseJoint(target, reference, stiffness, damping);
 	}
 
-	else if (!isButtonPressed && this->wasButtonPressed)
+	else if (this->game->GetMouseStatus() == Release)
 	{
 		//destroy all mosue joints
 		for (b2Joint* mj : this->joints)
@@ -215,8 +144,6 @@ void Scene::CreateMouseJointOnClick(PhysicsObject* target, PhysicsObject* refere
 			}
 		}
 	}
-
-	this->wasButtonPressed = isButtonPressed;
 }
 
 void Scene::CreateMouseJoint(PhysicsObject* target, PhysicsObject* reference, float stiffness, float damping)
@@ -225,7 +152,7 @@ void Scene::CreateMouseJoint(PhysicsObject* target, PhysicsObject* reference, fl
 	def.bodyA = reference->GetBody();
 	def.bodyB = target->GetBody();
 	def.target = target->GetPosition();
-	def.maxForce = 1000.0f * target->GetBody()->GetMass();
+	def.maxForce = 100.0f * target->GetBody()->GetMass();
 	def.stiffness = stiffness;
 	def.damping = damping;
 
@@ -233,101 +160,6 @@ void Scene::CreateMouseJoint(PhysicsObject* target, PhysicsObject* reference, fl
 	target->GetBody()->SetAwake(true);
 
 	this->joints.push_back(mj);
-}
-
-
-
-void Scene::SwitchTo(int id)
-{
-	this->Unload();
-	this->Load(id);
-	this->currentScene = id;
-	this->sceneFramecount = 0;
-}
-
-
-void Scene::Load(int id)
-{
-	switch (id)
-	{
-	case 1:
-	{
-		RectangleObject* r = new RectangleObject(*this->world, { 30.0f, 10.0f }, { 1.0f,1.0f }, b2_dynamicBody, 0.4f, 0.4f, 1000.0f);
-		RectangleObject* ground = new RectangleObject(*this->world, { 30.0f, 30.0f }, { 20.0f,1.0f }, b2_staticBody);
-
-		this->objects.push_back(r);
-		this->objects.push_back(ground);
-		break;
-	}
-
-	case 2:
-	{
-		CircleObject* c = new CircleObject(*this->world, { 30.0f, 10.0f }, 2.0f, b2_dynamicBody, 0.5f, 0.5f, 1000.0f);
-		RectangleObject* ground = new RectangleObject(*this->world, { 30.0f, 30.0f }, { 20.0f,1.0f }, b2_staticBody);
-		RectangleObject* ref = new RectangleObject(*this->world, { 100.0f, 30.0f }, { 0.1f,0.1f }, b2_staticBody);
-
-		this->objects.push_back(c);
-		this->objects.push_back(ground);
-		this->objects.push_back(ref);
-		break;
-	}
-		
-
-	case 3:
-	{
-		RectangleObject* bw = new RectangleObject(*this->world, { 35.0f, 40.0f }, { 20.0f,1.0f }, b2_kinematicBody);
-		RectangleObject* rw = new RectangleObject(*this->world, { 45.0f, 30.0f }, { 1.0f,20.0f }, b2_kinematicBody);
-		RectangleObject* lw = new RectangleObject(*this->world, { 25.0f, 30.0f }, { 1.0f, 20.0f }, b2_kinematicBody);
-		RectangleObject* tw = new RectangleObject(*this->world, { 35.0f, 20.0f }, { 20.0f, 1.0f }, b2_kinematicBody);
-
-		this->objects.push_back(bw);
-		this->objects.push_back(rw);
-		this->objects.push_back(lw);
-		this->objects.push_back(tw);
-
-		CircleObject* c = new CircleObject(*this->world, {35.0f, 30.0f}, 2.0f, b2_dynamicBody, 0.4f, 0.4f, 1000.0f );
-		this->objects.push_back(c);
-
-		RectangleObject* ref = new RectangleObject(*this->world, { 100.0f, 30.0f }, { 0.1f,0.1f }, b2_staticBody);
-		this->objects.push_back(ref);
-
-		break;
-	}
-
-	case 4:
-	{
-		LoopObject* loop = new LoopObject(*this->world, { Constants::menuX / Constants::scale / 2.0f, 30.0f }, 10.0f, 50, b2_staticBody, 0.9f);
-		this->objects.push_back(loop);
-
-		CircleObject* c = new CircleObject(*this->world, {loop->GetPosition().x, loop->GetPosition().y + 10.0f - 1.0f}, 1.0f, b2_dynamicBody, 0.9f, 0.4f, 100.0f);
-		this->objects.push_back(c);
-
-		RectangleObject* ref = new RectangleObject(*this->world, { 100.0f, 30.0f }, { 0.1f,0.1f }, b2_staticBody);
-		this->objects.push_back(ref);
-
-		
-
-
-
-		break;
-	}
-		
-
-
-	}
-}
-
-void Scene::Unload()
-{
-	//unload physics objects
-	for (PhysicsObject* obj : this->objects)
-	{
-		this->world->DestroyBody(obj->GetBody());
-		delete obj;
-		obj = nullptr;
-	}
-
-	this->objects.clear();
 }
 
 
