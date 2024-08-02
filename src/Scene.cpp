@@ -10,6 +10,9 @@
 #include "../include/helpers.h"
 #include "../include/Slider.h"
 #include "../include/TextButton.h"
+#include "../include/ContactListener.h"
+#include "../include/Checkbox.h"
+
 
 #include <iostream>
 
@@ -61,6 +64,11 @@ void Scene::Draw(sf::RenderWindow& window)
 	for (TextButton* t : this->buttons)
 	{
 		t->Draw(window);
+	}
+
+	for (Checkbox* c : this->checkboxes)
+	{
+		c->Draw(window);
 	}
 
 	window.draw(this->title);
@@ -121,6 +129,17 @@ void Scene::Update(unsigned int frameCount)
 		t->Update(this->game->GetMousePosition(), this->game->GetMouseStatus());
 	}
 
+	for (Checkbox* c : this->checkboxes)
+	{
+		c->Update(this->game->GetMousePosition(), this->game->GetMouseStatus());
+	}
+
+
+}
+
+int Scene::GetID() const
+{
+	return this->id;
 }
 
 void Scene::CreateMouseJointOnClick(PhysicsObject* target, PhysicsObject* reference, float stiffness, float damping)

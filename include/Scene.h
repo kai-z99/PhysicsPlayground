@@ -8,6 +8,8 @@ class PhysicsObject;
 class DebugDraw;
 class Slider;
 class TextButton;
+class ContactListener;
+class Checkbox;
 
 class Scene
 {
@@ -21,6 +23,7 @@ public:
 	//update objects etc
 	virtual void Update(unsigned int frameCount);
 
+	int GetID() const;
 
 protected:
 	Game* game;
@@ -31,9 +34,11 @@ protected:
 	std::vector<sf::Vertex> lines;
 	std::vector<Slider*> sliders; //temp
 	std::vector<TextButton*> buttons;
+	std::vector<Checkbox*> checkboxes;
 
 	
 	DebugDraw* debugDraw;
+	ContactListener* contactListener;
 	sf::Vector2f mouseCoordinates;
 	sf::Text title;
 
@@ -43,4 +48,6 @@ protected:
 	void DrawMouseCoordinates(sf::RenderWindow& window);
 
 	unsigned int sceneFramecount;
+
+	int id;
 };

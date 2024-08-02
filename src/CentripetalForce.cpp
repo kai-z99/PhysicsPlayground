@@ -8,6 +8,7 @@
 #include "../include/RectangleObject.h"
 #include "../include/CircleObject.h"
 #include "../include/LoopObject.h"
+#include "../include/ContactListener.h"
 
 #include <iostream>
 
@@ -15,10 +16,13 @@ CentripetalForce::CentripetalForce(Game* g)
 {
 	this->game = g;
 	this->world = new b2World({ 0.0f,10.0f });
+	this->contactListener = new ContactListener(this);
+	this->world->SetContactListener(this->contactListener);
 	this->world->SetDebugDraw(this->game->GetDebugDraw());
 	this->mouseCoordinates = { (float)this->game->GetMousePosition().x / (float)Constants::scale, (float)this->game->GetMousePosition().y / (float)Constants::scale };
 	this->sceneFramecount = 0;
 	this->lines = this->game->GetBGLines();
+	this->id = 1;
 
 	this->title = sf::Text("Centripetal Force", *this->game->GetFont(), 50);
 	this->title.setPosition({ 20.0f,20.0f });
@@ -45,7 +49,6 @@ CentripetalForce::CentripetalForce(Game* g)
 	this->buttons.push_back(new TextButton("GO!", { Constants::menuX + 200, 100 }, { 200,100 }, *this->game->GetFont()));
 	this->buttons.push_back(new TextButton("Reset", { Constants::menuX + 200, 200 }, { 100,50 }, *this->game->GetFont(), sf::Color(186, 186, 186, 255), sf::Color(84, 83, 83, 255)));
 	this->buttons[1]->SetFontSize(20);
-
 }
 
 CentripetalForce::~CentripetalForce()

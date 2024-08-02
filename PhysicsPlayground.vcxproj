@@ -128,7 +128,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\CentripetalForce.cpp" />
+    <ClCompile Include="src\Checkbox.cpp" />
     <ClCompile Include="src\CircleObject.cpp" />
+    <ClCompile Include="src\ContactListener.cpp" />
     <ClCompile Include="src\DebugDraw.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\helpers.cpp" />
@@ -144,8 +146,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\CentripetalForce.h" />
+    <ClInclude Include="include\Checkbox.h" />
     <ClInclude Include="include\CircleObject.h" />
     <ClInclude Include="include\constants.h" />
+    <ClInclude Include="include\ContactListener.h" />
     <ClInclude Include="include\DebugDraw.h" />
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\helpers.h" />

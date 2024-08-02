@@ -11,6 +11,9 @@
 #include "../include/CircleObject.h"
 #include "../include/LoopObject.h"
 #include "../include/RopeConnectorObject.h"
+#include "../include/ContactListener.h"
+#include "../include/Checkbox.h"
+
 
 #include <iostream>
 
@@ -18,10 +21,13 @@ Momentum::Momentum(Game* g)
 {
 	this->game = g;
 	this->world = new b2World({ 0.0f,30.0f });
+	this->contactListener = new ContactListener(this);
+	this->world->SetContactListener(this->contactListener);
 	this->world->SetDebugDraw(this->game->GetDebugDraw());
 	this->mouseCoordinates = { (float)this->game->GetMousePosition().x / (float)Constants::scale, (float)this->game->GetMousePosition().y / (float)Constants::scale };
 	this->sceneFramecount = 0;
 	this->lines = this->game->GetBGLines();
+	this->id = 2;
 
 	this->title = sf::Text("Momentum", *this->game->GetFont(), 50);
 	this->title.setPosition({ 20.0f,20.0f });
@@ -51,6 +57,11 @@ Momentum::Momentum(Game* g)
 	this->buttons.push_back(new TextButton("GO!", { Constants::menuX + 200, 100 }, { 200,100 }, *this->game->GetFont()));
 	this->buttons.push_back(new TextButton("Reset", { Constants::menuX + 200, 200 }, { 100,50 }, *this->game->GetFont(), sf::Color(186, 186, 186, 255), sf::Color(84, 83, 83, 255)));
 	this->buttons[1]->SetFontSize(20);
+
+	//CEHCKBOIXES
+	this->checkboxes.push_back(new Checkbox({Constants::menuX + 200, 400}, true, "CHECKBOX", *this->game->GetFont()));
+
+	
 }
 
 Momentum::~Momentum()
@@ -116,6 +127,4 @@ void Momentum::Update(unsigned int frameCount)
 		this->objects[0]->SetRestitution(restitution);
 		this->objects[2]->SetRestitution(restitution);
 	}
-
-	std::cout << this->objects[0]->GetMass() << "," << this->objects[2]->GetMass() << '\n';
 }
