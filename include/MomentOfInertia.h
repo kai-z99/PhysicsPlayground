@@ -14,4 +14,5 @@ public:
 
 private:
 	b2Body* b;
+	sf::Text speedText;
 };

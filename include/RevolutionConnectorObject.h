@@ -14,6 +14,8 @@ public:
 	void SetRadius(b2World& world, float radius);
 	float GetRadius() const;
 
+	float GetAngularVelocity() const;
+
 private:
 	float radius;
 	b2RevoluteJoint* joint;

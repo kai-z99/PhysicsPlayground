@@ -25,10 +25,10 @@ bool CheckCollisionCirclePoint(const sf::CircleShape& circle, const sf::Vector2i
 
 }
 
-std::string FloatToRoundedString(float f)
+std::string FloatToRoundedString(float f, int decimals)
 {
     std::ostringstream oss;
-    oss.precision(2);
+    oss.precision(decimals);
     oss << std::fixed << f;
     return oss.str();
 

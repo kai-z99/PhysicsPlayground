@@ -26,6 +26,7 @@ RevolutionConnectorObject::RevolutionConnectorObject(b2World& world, const b2Vec
 	b2RevoluteJointDef jd;
 	jd.Initialize(this->body, target->GetBody(), this->position);
 	this->joint = (b2RevoluteJoint*)world.CreateJoint(&jd);
+
 }
 
 RevolutionConnectorObject::~RevolutionConnectorObject()
@@ -68,4 +69,9 @@ void RevolutionConnectorObject::SetRadius(b2World& world, float radius)
 float RevolutionConnectorObject::GetRadius() const
 {
 	return this->radius;
+}
+
+float RevolutionConnectorObject::GetAngularVelocity() const
+{
+	return this->targetObj->GetAngularVelocity();
 }
