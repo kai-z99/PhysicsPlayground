@@ -3,7 +3,9 @@
 #include "../include/Game.h"
 #include "../include/CentripetalForce.h"
 #include "../include/Momentum.h"
+#include "../include/MomentOfInertia.h"
 #include "../include/DebugDraw.h"
+
 
 #include <iostream>
 Game::Game()
@@ -31,7 +33,8 @@ Game::Game()
 void Game::Init()
 {
 	//this->scene = new CentripetalForce(this); //temp
-	this->scene = new Momentum(this); //temp
+	//this->scene = new Momentum(this); //temp
+	this->scene = new MomentOfInertia(this); //temp
 }
 
 Game::~Game()

@@ -23,7 +23,7 @@ Checkbox::Checkbox(const sf::Vector2f& position, bool checked, const std::string
 
 bool Checkbox::GetIsChecked() const
 {
-	return false;
+	return this->isChecked;
 }
 
 void Checkbox::Draw(sf::RenderWindow& window)

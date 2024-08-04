@@ -9,6 +9,7 @@
 #include "../include/CircleObject.h"
 #include "../include/LoopObject.h"
 #include "../include/ContactListener.h"
+#include "../include/Checkbox.h"
 
 #include <iostream>
 
@@ -49,6 +50,9 @@ CentripetalForce::CentripetalForce(Game* g)
 	this->buttons.push_back(new TextButton("GO!", { Constants::menuX + 200, 100 }, { 200,100 }, *this->game->GetFont()));
 	this->buttons.push_back(new TextButton("Reset", { Constants::menuX + 200, 200 }, { 100,50 }, *this->game->GetFont(), sf::Color(186, 186, 186, 255), sf::Color(84, 83, 83, 255)));
 	this->buttons[1]->SetFontSize(20);
+
+	//CEHCKBOIXES
+	this->checkboxes.push_back(new Checkbox({ Constants::menuX + 100, 400 }, true, "Enable Mouse Pulling", *this->game->GetFont()));
 }
 
 CentripetalForce::~CentripetalForce()
@@ -69,7 +73,7 @@ void CentripetalForce::Update(unsigned int frameCount)
 	static float density = 50.0f + 950.0f;
 
 	//toggle?
-	this->CreateMouseJointOnClick(this->objects[1], this->objects[2], 1000.0f, 100.f);
+	if (this->checkboxes[0]->GetIsChecked()) this->CreateMouseJointOnClick(this->objects[1], this->objects[2], 1000.0f, 100.f);
 
 
 	//BUTTONS------------------------------------------------------

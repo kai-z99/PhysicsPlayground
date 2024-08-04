@@ -21,6 +21,8 @@ void ContactListener::BeginContact(b2Contact* contact)
 	{
 		std::cout << "Collision Detected in Scene 2\n";
 	}
+	default:
+		break;
 	}
 }
 
@@ -37,5 +39,7 @@ void ContactListener::EndContact(b2Contact* contact)
 	{
 		std::cout << "Collision Ended in Scene 2\n";
 	}
+	default:
+		break;
 	}
 }

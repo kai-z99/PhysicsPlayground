@@ -59,7 +59,7 @@ Momentum::Momentum(Game* g)
 	this->buttons[1]->SetFontSize(20);
 
 	//CEHCKBOIXES
-	this->checkboxes.push_back(new Checkbox({Constants::menuX + 200, 400}, true, "CHECKBOX", *this->game->GetFont()));
+	this->checkboxes.push_back(new Checkbox({Constants::menuX + 100, 400}, true, "Enable Mouse Pulling", *this->game->GetFont()));
 
 	
 }
@@ -76,7 +76,6 @@ void Momentum::Draw(sf::RenderWindow& window)
 void Momentum::Update(unsigned int frameCount)
 {
 	Scene::Update(frameCount);
-	this->CreateMouseJointOnClick(this->objects[0], this->objects[4], 1000.0f, 100.f);
 
 	static float impulseStrength = 50000.0f + 5200000.0f;
 	static float Ldensity = 50.0f + 950.0f;
@@ -126,5 +125,10 @@ void Momentum::Update(unsigned int frameCount)
 		
 		this->objects[0]->SetRestitution(restitution);
 		this->objects[2]->SetRestitution(restitution);
+	}
+
+	if (this->checkboxes[0]->GetIsChecked())
+	{
+		this->CreateMouseJointOnClick(this->objects[0], this->objects[4], Ldensity * 3.0f, 100.f);
 	}
 }

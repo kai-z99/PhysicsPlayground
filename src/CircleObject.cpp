@@ -42,8 +42,8 @@ CircleObject::~CircleObject()
 
 void CircleObject::Draw(sf::RenderWindow& window)
 {
-	//window.draw(this->circle);
-	//window.draw(this->lineDesign);
+	window.draw(this->circle);
+	window.draw(this->lineDesign);
 
 }
 

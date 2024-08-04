@@ -136,9 +136,11 @@
     <ClCompile Include="src\helpers.cpp" />
     <ClCompile Include="src\LoopObject.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\MomentOfInertia.cpp" />
     <ClCompile Include="src\Momentum.cpp" />
     <ClCompile Include="src\PhysicsObject.cpp" />
     <ClCompile Include="src\RectangleObject.cpp" />
+    <ClCompile Include="src\RevolutionConnectorObject.cpp" />
     <ClCompile Include="src\RopeConnectorObject.cpp" />
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\Slider.cpp" />
@@ -154,9 +156,11 @@
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\helpers.h" />
     <ClInclude Include="include\LoopObject.h" />
+    <ClInclude Include="include\MomentOfInertia.h" />
     <ClInclude Include="include\Momentum.h" />
     <ClInclude Include="include\PhysicsObject.h" />
     <ClInclude Include="include\RectangleObject.h" />
+    <ClInclude Include="include\RevolutionConnectorObject.h" />
     <ClInclude Include="include\RopeConnectorObject.h" />
     <ClInclude Include="include\Scene.h" />
     <ClInclude Include="include\Slider.h" />
