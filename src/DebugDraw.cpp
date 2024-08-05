@@ -2,7 +2,7 @@
 
 DebugDraw::DebugDraw(sf::RenderWindow& window, float scale) : window(window), scale(scale)
 {
-	this->SetFlags(b2Draw::e_shapeBit | b2Draw::e_jointBit | b2Draw::e_aabbBit | b2Draw::e_pairBit | b2Draw::e_centerOfMassBit); //temp set all initally
+	this->SetFlags(b2Draw::e_shapeBit | b2Draw::e_jointBit /* | b2Draw::e_aabbBit*/ | b2Draw::e_pairBit | b2Draw::e_centerOfMassBit); //temp set all initally
 }
 
 void DebugDraw::DrawPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color)

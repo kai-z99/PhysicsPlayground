@@ -4,6 +4,7 @@
 #include "../include/CentripetalForce.h"
 #include "../include/Momentum.h"
 #include "../include/MomentOfInertia.h"
+#include "../include/Friction.h"
 #include "../include/DebugDraw.h"
 
 
@@ -34,7 +35,8 @@ void Game::Init()
 {
 	//this->scene = new CentripetalForce(this); //temp
 	//this->scene = new Momentum(this); //temp
-	this->scene = new MomentOfInertia(this); //temp
+	//this->scene = new MomentOfInertia(this); //temp
+	this->scene = new Friction(this); //temp
 }
 
 Game::~Game()

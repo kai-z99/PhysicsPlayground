@@ -18,7 +18,7 @@ public:
 	void SetVelocity(const b2Vec2& vel);
 	void SetAcceleration(const b2Vec2& accel);
 	void SetAngularVelocity(float vel);
-	void SetAngle(float ang);
+	virtual void SetAngle(float ang);
 	void SetDensity(float density);
 	void SetFriction(float friction);
 	void SetRestitution(float restitution);

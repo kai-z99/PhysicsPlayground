@@ -35,6 +35,7 @@ std::string FloatToRoundedString(float f, int decimals)
 
 }
 
+float RADTODEG = 180.0f / Constants::PI;
 //bool CheckCollisionRecPoint(const sf::RectangleShape& rec, const sf::Vector2i& point)
 //{
 //   //

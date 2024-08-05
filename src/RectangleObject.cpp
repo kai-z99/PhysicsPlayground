@@ -20,6 +20,7 @@ RectangleObject::RectangleObject(b2World& world, const b2Vec2& position, const b
 
 	this->position.x = position.x;
 	this->position.y = position.y;
+	this->angle = angle;
 }
 
 RectangleObject::~RectangleObject()

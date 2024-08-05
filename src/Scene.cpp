@@ -7,7 +7,6 @@
 #include "../include/DebugDraw.h"
 #include "../include/constants.h"
 #include "../include/Game.h"
-#include "../include/helpers.h"
 #include "../include/Slider.h"
 #include "../include/TextButton.h"
 #include "../include/ContactListener.h"
