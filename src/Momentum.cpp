@@ -38,10 +38,10 @@ Momentum::Momentum(Game* g)
 
 	//OBJECTS
 	this->objects.push_back(new CircleObject(*this->world, this->LStartPos, 1.0f, b2_dynamicBody, 0.0f, 1.0f, 300.0f));
-	this->objects.push_back(new RopeConnectorObject(*this->world, { 35.0f, 20.0f }, 10.0f, 3, this->objects[0]));
+	this->objects.push_back(new RopeConnectorObject(*this->world, { 35.0f, 20.0f }, 10.0f, 3, this->objects[0], 10.0f, 10.0f));
 
 	this->objects.push_back(new CircleObject(*this->world,this->RStartPos, 1.0f, b2_dynamicBody, 0.0f, 1.0f, 300.0f));
-	this->objects.push_back(new RopeConnectorObject(*this->world, { 37.0f, 20.0f }, 10.0f, 3, this->objects[2]));
+	this->objects.push_back(new RopeConnectorObject(*this->world, { 37.0f, 20.0f }, 10.0f, 3, this->objects[2], 10.0f, 10.0f));
 
 
 	this->objects.push_back(new RectangleObject(*this->world, { 100.0f, 30.0f }, { 0.1f,0.1f }, b2_staticBody));

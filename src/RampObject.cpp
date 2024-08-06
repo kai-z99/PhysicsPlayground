@@ -1,10 +1,11 @@
 #include "../include/RampObject.h"
 
-RampObject::RampObject(b2World& world, const b2Vec2& position, float angle, float length, b2BodyType bodyType, float friction, float restitution, float density, bool flip)
+RampObject::RampObject(b2World& world, const b2Vec2& position, float angle, float length, b2BodyType bodyType, float friction, float restitution, float density, bool flip, bool rotated)
 {
 	this->flipped = flip;
 	this->angle = angle;
 	this->length = length;
+	this->rotated = rotated;
 
 	b2BodyDef def;
 	def.position = position; //BOTTOM CORNER OF THE RAMP IS POSITION
@@ -21,6 +22,12 @@ RampObject::RampObject(b2World& world, const b2Vec2& position, float angle, floa
 	{
 		this->vertices[1].x = -this->vertices[1].x;
 		this->vertices[2].x = -this->vertices[2].x;
+	}
+
+	if (this->rotated)
+	{
+		this->vertices[1].x = this->vertices[0].x;
+		this->vertices[1].y = this->vertices[2].y;
 	}
 
 	rampShape.Set(this->vertices, 3);
@@ -72,6 +79,13 @@ void RampObject::SetAngle(float angle)
 		this->vertices[2].x = -this->vertices[2].x;
 	}
 
+	if (this->rotated)
+	{
+		this->vertices[1].x = this->vertices[0].x;
+		this->vertices[1].y = this->vertices[2].y;
+	}
+
+
 	rampShape.Set(this->vertices, 3);
 
 	b2FixtureDef fixtureDef;
@@ -85,4 +99,9 @@ void RampObject::SetAngle(float angle)
 b2Vec2 RampObject::GetTopCornerPosition() const
 {
 	return this->position + this->vertices[2];
+}
+
+b2Vec2 RampObject::GetBottomCornerPosition() const
+{
+	return this->position + this->vertices[1];
 }

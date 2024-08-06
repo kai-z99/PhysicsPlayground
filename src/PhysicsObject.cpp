@@ -30,7 +30,9 @@ void PhysicsObject::SetPosition(const b2Vec2& pos)
 	{
 		this->body->SetTransform(pos, this->body->GetAngle());
 	}
-	
+
+	this->body->SetAwake(true); //dont clip
+
 	this->position = pos;
 }
 

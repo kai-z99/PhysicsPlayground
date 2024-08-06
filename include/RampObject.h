@@ -5,7 +5,7 @@
 class RampObject : public PhysicsObject
 {
 public:
-	RampObject(b2World& world, const b2Vec2& position, float angle, float length, b2BodyType bodyType, float friction = 0.0f, float restitution = 0.0f, float density = 0.0f, bool flip = false);
+	RampObject(b2World& world, const b2Vec2& position, float angle, float length, b2BodyType bodyType, float friction = 0.0f, float restitution = 0.0f, float density = 0.0f, bool flip = false, bool rotated = false);
 	~RampObject();
 
 	void Draw(sf::RenderWindow& window) override;
@@ -14,9 +14,11 @@ public:
 	void SetAngle(float angle) override;
 
 	b2Vec2 GetTopCornerPosition() const;
+	b2Vec2 GetBottomCornerPosition() const;
 
 private:
 	bool flipped;
+	bool rotated;
 	float length;
 
 	b2Fixture* bodyFixture;

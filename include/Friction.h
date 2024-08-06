@@ -12,5 +12,11 @@ public:
 	void Update(unsigned int frameCount) override;
 
 private:
+	b2Vec2 rampCenterPosition;
+	b2Vec2 ropeConnectorPosition;
+	b2Vec2 cubeStartPosition;
 
+
+	float ropeDistance;
+	float targetAngle;
 };
