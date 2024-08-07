@@ -13,6 +13,7 @@ public:
 
 	void ApplyForce(b2Vec2 force, b2Vec2 point);
 	void ApplyForce(b2Vec2 force);
+	void ApplyTorque(float torque);
 
 	void SetPosition(const b2Vec2& pos);
 	void SetVelocity(const b2Vec2& vel);

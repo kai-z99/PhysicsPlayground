@@ -120,7 +120,7 @@ void Scene::Update(unsigned int frameCount)
 	this->mouseCoordinates.x = (float)this->game->GetMousePosition().x / Constants::scale;
 	this->mouseCoordinates.y = (float)this->game->GetMousePosition().y / Constants::scale;
 
-	this->world->Step(1.0f / 60.f, 4, 8);
+	this->world->Step(1.0f / 60.f, 8, 8);
 
 	for (PhysicsObject* obj : this->objects)
 	{

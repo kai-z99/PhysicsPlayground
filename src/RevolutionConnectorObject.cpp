@@ -29,6 +29,7 @@ RevolutionConnectorObject::RevolutionConnectorObject(b2World& world, const b2Vec
 	
 	b2RevoluteJointDef jd;
 	jd.Initialize(this->body, target->GetBody(), this->position);
+	jd.collideConnected = false;
 	this->joint = (b2RevoluteJoint*)world.CreateJoint(&jd);
 
 	this->angle = this->joint->GetReferenceAngle();

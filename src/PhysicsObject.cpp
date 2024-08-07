@@ -24,6 +24,11 @@ void PhysicsObject::ApplyForce(b2Vec2 force)
 	this->body->ApplyForceToCenter(force, true);
 }
 
+void PhysicsObject::ApplyTorque(float torque)
+{
+	this->body->ApplyTorque(torque, true);
+}
+
 void PhysicsObject::SetPosition(const b2Vec2& pos)
 {
 	if (this->body)
