@@ -15,6 +15,7 @@ class Checkbox;
 class Scene
 {
 public:
+	Scene(Game* g);
 	//Clears and destroys vector pointers and world, removes bodies from world.
 	virtual ~Scene();
 
@@ -37,11 +38,11 @@ protected:
 	std::vector<TextButton*> buttons;
 	std::vector<Checkbox*> checkboxes;
 
-	
-	DebugDraw* debugDraw;
+
 	ContactListener* contactListener;
 	sf::Vector2f mouseCoordinates;
 	sf::Text title;
+	sf::RectangleShape menuBG;
 
 	void CreateMouseJointOnClick(PhysicsObject* target, PhysicsObject* reference, float stiffness, float damping);
 	void CreateMouseJoint(PhysicsObject* target, PhysicsObject* reference, float stiffness, float damping);

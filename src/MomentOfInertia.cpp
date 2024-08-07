@@ -15,17 +15,9 @@
 
 #include <iostream>
 
-MomentOfInertia::MomentOfInertia(Game* g)
+MomentOfInertia::MomentOfInertia(Game* g) : Scene(g)
 {
-	this->game = g;
-
-	this->world = new b2World({ 0.0f,0.0f });
-	this->contactListener = new ContactListener(this);
-	this->world->SetContactListener(this->contactListener);
-	this->world->SetDebugDraw(this->game->GetDebugDraw());
-	this->mouseCoordinates = { (float)this->game->GetMousePosition().x / (float)Constants::scale, (float)this->game->GetMousePosition().y / (float)Constants::scale };
-	this->sceneFramecount = 0;
-	this->lines = this->game->GetBGLines();
+    this->world->SetGravity({ 0.0f, 0.0f });
 	this->id = 3;
 
     this->title = sf::Text("Moment of Inertia", *this->game->GetFont(), 50);
@@ -35,7 +27,7 @@ MomentOfInertia::MomentOfInertia(Game* g)
     b2Vec2 position = Constants::worldCenter;
     this->objects.push_back(new RectangleObject(*this->world, { 26.7f, 20.0f }, { 3.0f, 3.0f }, b2_dynamicBody, 0.0f, 0.0f, 100.0f));
     this->objects.push_back(new RevolutionConnectorObject(*this->world, position, this->objects[0]));
-    
+
     this->b = this->objects[0]->GetBody();
 
     this->sliders.push_back(new Slider({ Constants::menuX + 200, 300 }, 300, 0.4f, *this->game->GetFont(), "Radius (M)"));

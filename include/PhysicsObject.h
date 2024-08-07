@@ -23,6 +23,8 @@ public:
 	void SetFriction(float friction);
 	void SetRestitution(float restitution);
 
+	void Refresh(b2World& world);
+
 	b2Vec2 GetPosition() const;
 	b2Vec2 GetVelocity() const;
 	b2Vec2 GetAcceleration() const;

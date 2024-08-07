@@ -29,6 +29,8 @@ public:
 private:
 	unsigned int frameCount;
 
+	void ChangeScene(int id);
+
 	sf::RenderWindow* window;
 	sf::Vector2i mousePosition;
 

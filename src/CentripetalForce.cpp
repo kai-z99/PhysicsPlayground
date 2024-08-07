@@ -13,16 +13,10 @@
 
 #include <iostream>
 
-CentripetalForce::CentripetalForce(Game* g)
+CentripetalForce::CentripetalForce(Game* g) : Scene(g)
 {
-	this->game = g;
-	this->world = new b2World({ 0.0f,10.0f });
-	this->contactListener = new ContactListener(this);
-	this->world->SetContactListener(this->contactListener);
-	this->world->SetDebugDraw(this->game->GetDebugDraw());
-	this->mouseCoordinates = { (float)this->game->GetMousePosition().x / (float)Constants::scale, (float)this->game->GetMousePosition().y / (float)Constants::scale };
-	this->sceneFramecount = 0;
-	this->lines = this->game->GetBGLines();
+	this->world->SetGravity({ 0.0f, 10.0f });
+
 	this->id = 1;
 
 	this->title = sf::Text("Centripetal Force", *this->game->GetFont(), 50);

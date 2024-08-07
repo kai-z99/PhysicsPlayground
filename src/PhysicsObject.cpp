@@ -95,6 +95,17 @@ void PhysicsObject::SetRestitution(float restitution)
 	body->ResetMassData();
 }
 
+void PhysicsObject::Refresh(b2World& world)
+{
+	b2ContactEdge* contact = this->body->GetContactList();
+
+	while (contact)
+	{
+		if (contact->contact->IsEnabled()) contact->contact->SetEnabled(false);
+		contact = contact->next;
+	}
+}
+
 
 b2Vec2 PhysicsObject::GetPosition() const
 {

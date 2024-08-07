@@ -16,6 +16,24 @@
 #include <iostream>
 
 
+Scene::Scene(Game* g)
+{
+	this->game = g;
+	this->world = new b2World({0.0f, 0.0f});
+	this->contactListener = new ContactListener(this);
+	this->world->SetContactListener(this->contactListener);
+	this->world->SetDebugDraw(this->game->GetDebugDraw());
+
+	this->menuBG = sf::RectangleShape({Constants::screenWidth - Constants::menuX, Constants::screenHeight});
+	this->menuBG.setPosition(Constants::menuX, 0.0f);
+	this->menuBG.setOrigin(0.0f, 0.0f);
+	this->menuBG.setFillColor(sf::Color::Yellow);
+
+	this->mouseCoordinates = { (float)this->game->GetMousePosition().x / (float)Constants::scale, (float)this->game->GetMousePosition().y / (float)Constants::scale };
+	this->sceneFramecount = 0;
+	this->lines = this->game->GetBGLines();
+}
+
 Scene::~Scene()
 {
 	//unload physics objects
@@ -39,8 +57,15 @@ Scene::~Scene()
 		delete b;
 		b = nullptr;
 	}
+	for (Checkbox* c : this->checkboxes)
+	{
+		delete c;
+		c = nullptr;
+	}
+
 
 	delete this->world;
+	delete this->contactListener;
 }
 
 
@@ -49,6 +74,7 @@ void Scene::Draw(sf::RenderWindow& window)
 	window.clear(sf::Color::White);
 	window.draw(&(lines[0]), lines.size(), sf::Lines);
 	this->world->DebugDraw();
+	window.draw(this->menuBG);
 
 	for (PhysicsObject* obj : this->objects)
 	{
@@ -94,11 +120,12 @@ void Scene::Update(unsigned int frameCount)
 	this->mouseCoordinates.x = (float)this->game->GetMousePosition().x / Constants::scale;
 	this->mouseCoordinates.y = (float)this->game->GetMousePosition().y / Constants::scale;
 
+	this->world->Step(1.0f / 60.f, 4, 8);
+
 	for (PhysicsObject* obj : this->objects)
 	{
 		obj->Update();
 	}
-
 
 	for (b2Joint* joint : joints)
 	{
@@ -116,7 +143,7 @@ void Scene::Update(unsigned int frameCount)
 		
 	}
 
-	this->world->Step(1.0f/60.f, 4,8);
+	
 
 	for (Slider* s : this->sliders)
 	{

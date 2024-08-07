@@ -17,16 +17,10 @@
 
 #include <iostream>
 
-Momentum::Momentum(Game* g)
+Momentum::Momentum(Game* g) : Scene(g)
 {
-	this->game = g;
-	this->world = new b2World({ 0.0f,30.0f });
-	this->contactListener = new ContactListener(this);
-	this->world->SetContactListener(this->contactListener);
-	this->world->SetDebugDraw(this->game->GetDebugDraw());
-	this->mouseCoordinates = { (float)this->game->GetMousePosition().x / (float)Constants::scale, (float)this->game->GetMousePosition().y / (float)Constants::scale };
-	this->sceneFramecount = 0;
-	this->lines = this->game->GetBGLines();
+	this->world->SetGravity({0.0f, 30.0f});
+
 	this->id = 2;
 
 	this->title = sf::Text("Momentum", *this->game->GetFont(), 50);

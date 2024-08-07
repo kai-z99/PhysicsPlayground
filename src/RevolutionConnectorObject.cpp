@@ -1,9 +1,11 @@
 #include "../include/RevolutionConnectorObject.h"
-
+#include "../include/constants.h"
+#include <iostream>
 
 RevolutionConnectorObject::RevolutionConnectorObject(b2World& world, const b2Vec2& position, PhysicsObject* target)
 {
 	this->position = position;
+	this->targetObj = target;
 
 	//CREATE THE ANCHOR POINT. (THIS IS THE OBJECTS BODY MEMBER)-----------
 	b2BodyDef pointDef;
@@ -20,12 +22,17 @@ RevolutionConnectorObject::RevolutionConnectorObject(b2World& world, const b2Vec
 	this->body->CreateFixture(&fixture);
 	//----------------------------------------------------------------------
 	
-	this->radius = 10.0f;
-	this->targetObj = target;
+	float x = this->targetObj->GetPosition().x - this->position.x;
+	float y = this->targetObj->GetPosition().y - this->position.y;
 
+	this->radius = sqrtf(x * x + y * y);
+	
 	b2RevoluteJointDef jd;
 	jd.Initialize(this->body, target->GetBody(), this->position);
 	this->joint = (b2RevoluteJoint*)world.CreateJoint(&jd);
+
+	this->angle = this->joint->GetReferenceAngle();
+	this->angle = this->targetObj->GetAngle();
 
 }
 
@@ -35,13 +42,19 @@ RevolutionConnectorObject::~RevolutionConnectorObject()
 
 void RevolutionConnectorObject::Update()
 {
-	PhysicsObject::Update();
+	//PhysicsObject::Update();
 
+	this->position = this->body->GetPosition();
+
+	//SET RADIUS
 	float x = this->targetObj->GetPosition().x - this->position.x;
 	float y = this->targetObj->GetPosition().y - this->position.y;
 	this->radius = sqrtf(x * x + y * y);
 
+	//SET ANGLE
+	this->angle = this->joint->GetReferenceAngle();
 	this->angle = this->targetObj->GetAngle();
+	std::cout << "ANGLE: " << this->angle << "\nRADIUS: " << this->radius << '\n';
 }
 
 void RevolutionConnectorObject::Draw(sf::RenderWindow& window)
@@ -62,8 +75,9 @@ void RevolutionConnectorObject::SetRadius(b2World& world, float radius)
 	b2RevoluteJointDef jd;
 	jd.Initialize(this->body, targetObj->GetBody(), this->position);
 	this->joint = (b2RevoluteJoint*)world.CreateJoint(&jd);
-	
+
 	this->radius = radius;
+
 }
 
 float RevolutionConnectorObject::GetRadius() const
@@ -73,5 +87,5 @@ float RevolutionConnectorObject::GetRadius() const
 
 float RevolutionConnectorObject::GetAngularVelocity() const
 {
-	return this->targetObj->GetAngularVelocity();
+	return this->joint->GetJointSpeed();
 }

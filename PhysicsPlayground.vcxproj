@@ -145,6 +145,7 @@
     <ClCompile Include="src\RevolutionConnectorObject.cpp" />
     <ClCompile Include="src\RopeConnectorObject.cpp" />
     <ClCompile Include="src\Scene.cpp" />
+    <ClCompile Include="src\SimpleHarmonicMotion.cpp" />
     <ClCompile Include="src\Slider.cpp" />
     <ClCompile Include="src\TextButton.cpp" />
   </ItemGroup>
@@ -167,6 +168,7 @@
     <ClInclude Include="include\RevolutionConnectorObject.h" />
     <ClInclude Include="include\RopeConnectorObject.h" />
     <ClInclude Include="include\Scene.h" />
+    <ClInclude Include="include\SimpleHarmonicMotion.h" />
     <ClInclude Include="include\Slider.h" />
     <ClInclude Include="include\TextButton.h" />
   </ItemGroup>

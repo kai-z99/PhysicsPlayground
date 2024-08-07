@@ -5,6 +5,7 @@
 #include "../include/Momentum.h"
 #include "../include/MomentOfInertia.h"
 #include "../include/Friction.h"
+#include "../include/SimpleHarmonicMotion.h"
 #include "../include/DebugDraw.h"
 
 
@@ -33,10 +34,7 @@ Game::Game()
 
 void Game::Init()
 {
-	//this->scene = new CentripetalForce(this); //temp
-	//this->scene = new Momentum(this); //temp
-	//this->scene = new MomentOfInertia(this); //temp
-	this->scene = new Friction(this); //temp
+	this->scene = new SimpleHarmonicMotion(this); //temp
 }
 
 Game::~Game()
@@ -77,6 +75,17 @@ void Game::Run()
 			{
 				this->mouseStatus = Release;
 			}
+
+			else if (this->currentEvent.type == sf::Event::KeyPressed && this->currentEvent.key.code == sf::Keyboard::Left)
+			{
+				this->ChangeScene(this->scene->GetID() - 1);
+			}
+
+			else if (this->currentEvent.type == sf::Event::KeyPressed && this->currentEvent.key.code == sf::Keyboard::Right)
+			{
+				this->ChangeScene(this->scene->GetID() + 1);
+			}
+
 		}
 
 		//switch (this->mouseStatus)
@@ -178,4 +187,34 @@ std::vector<sf::Vertex> Game::GetBGLines()
 	}
 
 	return lines;
+}
+
+void Game::ChangeScene(int id)
+{
+	Scene* newScene;
+
+	switch (id)
+	{
+	case 1:
+		newScene = new CentripetalForce(this);
+		break;
+	case 2:
+		newScene = new Momentum(this);
+		break;
+	case 3:
+		newScene = new MomentOfInertia(this);
+		break;
+	case 4:
+		newScene = new Friction(this);
+		break;
+	case 5:
+		newScene = new SimpleHarmonicMotion(this);
+		break;
+	default:
+		newScene = new CentripetalForce(this);
+		break;
+	}
+
+	delete this->scene;
+	this->scene = newScene;
 }
