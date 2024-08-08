@@ -142,6 +142,11 @@ float PhysicsObject::GetMass() const
 	return this->body->GetMass();
 }
 
+float PhysicsObject::GetDensity() const
+{
+	return this->density;
+}
+
 b2Body* PhysicsObject::GetBody() const
 {
 	return this->body;

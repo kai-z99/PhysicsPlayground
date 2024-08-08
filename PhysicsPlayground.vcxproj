@@ -133,6 +133,7 @@
     <ClCompile Include="src\ContactListener.cpp" />
     <ClCompile Include="src\DebugDraw.cpp" />
     <ClCompile Include="src\Friction.cpp" />
+    <ClCompile Include="src\Galton.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\helpers.cpp" />
     <ClCompile Include="src\LoopObject.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="include\ContactListener.h" />
     <ClInclude Include="include\DebugDraw.h" />
     <ClInclude Include="include\Friction.h" />
+    <ClInclude Include="include\Galton.h" />
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\helpers.h" />
     <ClInclude Include="include\LoopObject.h" />

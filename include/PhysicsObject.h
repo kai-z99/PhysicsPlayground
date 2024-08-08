@@ -32,6 +32,7 @@ public:
 	float GetAngle() const;
 	float GetAngularVelocity() const;
 	float GetMass() const;
+	float GetDensity() const;
 
 	b2Body* GetBody() const;
 
@@ -41,6 +42,7 @@ protected:
 
 	float angle;
 	float angularVelocity;
+	float density;
 
 	b2Vec2 position;
 	b2Vec2 velocity;

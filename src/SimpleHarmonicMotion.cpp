@@ -4,6 +4,7 @@
 #include "../include/CircleObject.h"
 #include "../include/Slider.h"
 #include "../include/Constants.h"
+#include "../include/TextButton.h"
 
 
 SimpleHarmonicMotion::SimpleHarmonicMotion(Game* g) : Scene(g)
@@ -11,20 +12,17 @@ SimpleHarmonicMotion::SimpleHarmonicMotion(Game* g) : Scene(g)
 	this->world->SetGravity({ 0.0f, 10.0f });
 	this->id = 5;
 
-	this->title = sf::Text("Harmonic Motion", *this->game->GetFont(), 50);
+	this->title = sf::Text("Simple Harmonic Motion", *this->game->GetFont(), 50);
 	this->title.setPosition({ 20.0f,20.0f });
 	this->title.setFillColor(sf::Color::Black);
 
 	//OBJECTS
 	this->objects.push_back(new CircleObject(*this->world, Constants::worldCenter + b2Vec2(10.0f, -10.0f), 1.0f, b2_dynamicBody, 0.0f, 0.0f, 100.0f));
 	this->objects.push_back(new RevolutionConnectorObject(*this->world, Constants::worldCenter + b2Vec2(0.0f, -10.0f), this->objects[0]));
-	this->objects[0]->GetBody()->SetLinearDamping(0.0f);
-	this->objects[0]->GetBody()->SetAngularDamping(0.0f);
-	this->objects[0]->ApplyTorque(1000.0f);
-
 
 	//SLIDERS
 	this->sliders.push_back(new Slider({ Constants::menuX + 200, 300 }, 300, 8.0f/15.0f, *this->game->GetFont(), "Radius (M)"));
+
 }
 
 SimpleHarmonicMotion::~SimpleHarmonicMotion()
@@ -41,7 +39,7 @@ void SimpleHarmonicMotion::Update(unsigned int frameCount)
 	Scene::Update(frameCount);
 
 	//make this apply torque if it doesnt reach its max height maybe? maybe off for loop situation
-	if (this->objects[0]->GetAngularVelocity() > 0) this->objects[0]->ApplyTorque(490.0f);
+	if (this->objects[0]->GetAngularVelocity() > 0) this->objects[0]->ApplyTorque(490.0f * (this->objects[0]->GetDensity() / 100.0f));
 	else if (this->objects[0]->GetAngularVelocity() < 0) this->objects[0]->ApplyTorque(-490.0f);
 	
 	//RADIUS CONTROL------------------------------------------------------------------------------
@@ -53,4 +51,5 @@ void SimpleHarmonicMotion::Update(unsigned int frameCount)
 		dynamic_cast<RevolutionConnectorObject*>(this->objects[1])->SetRadius(*this->world, radius);
 	}
 	//--------------------------------------------------------------------------------------------
+
 }

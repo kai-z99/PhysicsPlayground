@@ -16,6 +16,7 @@ CircleObject::CircleObject(b2World& world, const b2Vec2& position, float radius,
 	fixture.friction = friction;
 	fixture.restitution = restitution;
 	fixture.density = density;
+	this->density = density;
 
 	this->body->CreateFixture(&fixture);
 

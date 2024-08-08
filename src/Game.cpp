@@ -6,6 +6,7 @@
 #include "../include/MomentOfInertia.h"
 #include "../include/Friction.h"
 #include "../include/SimpleHarmonicMotion.h"
+#include "../include/Galton.h"
 #include "../include/DebugDraw.h"
 
 
@@ -34,7 +35,7 @@ Game::Game()
 
 void Game::Init()
 {
-	this->scene = new SimpleHarmonicMotion(this); //temp
+	this->scene = new Galton(this); //temp
 }
 
 Game::~Game()
