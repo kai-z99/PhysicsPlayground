@@ -211,6 +211,10 @@ void Game::ChangeScene(int id)
 	case 5:
 		newScene = new SimpleHarmonicMotion(this);
 		break;
+	case 6:
+		newScene = new Galton(this);
+		break;
+
 	default:
 		newScene = new CentripetalForce(this);
 		break;

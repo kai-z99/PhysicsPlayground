@@ -26,7 +26,7 @@ static float pegHeight = 40.0f;
 
 Galton::Galton(Game* g) : Scene(g)
 {
-	this->world->SetGravity({ 0.0f, 40.0f });
+	this->world->SetGravity({ 0.0f, 50.0f });
 	this->id = 5;
 
 	this->title = sf::Text("Bonus: Normal Distribution", *this->game->GetFont(), 50);
@@ -104,7 +104,7 @@ Galton::Galton(Game* g) : Scene(g)
 	this->buttons[1]->SetFontSize(20);
 
 	//SLIDERS
-	this->sliders.push_back(new Slider({ Constants::menuX + 200, 300 }, 300, 8.0f / 15.0f, *this->game->GetFont(), "Segments"));
+	this->sliders.push_back(new Slider({ Constants::menuX + 200, 300 }, 300, 0.7, *this->game->GetFont(), "Segments"));
 
 
 
@@ -127,6 +127,7 @@ void Galton::Update(unsigned int frameCount)
 	if (this->buttons[1]->GetIsPressed())
 	{
 		this->DestroyMarbles();
+		this->pouring = false;
 	}
 
 	//Spawn marbles on click
@@ -136,14 +137,14 @@ void Galton::Update(unsigned int frameCount)
 	}
 	if (this->pouring)
 	{
-		if (this->marbleCount <= 250)
+		if (this->marbleCount <= 500)
 		{
 			if (this->sceneFramecount % 3 == 0)
 			{
-				this->marbles.push_back(new CircleObject(*this->world, { Constants::worldCenter.x + 0.1f, 5.0f }, 0.33, b2_dynamicBody, 0.0f, 0.1f, 10.0f));
-				this->marbles.push_back(new CircleObject(*this->world, { Constants::worldCenter.x - 0.1f, 5.0f }, 0.33, b2_dynamicBody, 0.0f, 0.1f, 10.0f));
+				this->marbles.push_back(new CircleObject(*this->world, { Constants::worldCenter.x + 0.1f, 5.0f }, 0.33, b2_dynamicBody, 0.0f, 0.2f, 10.0f));
+				this->marbles.push_back(new CircleObject(*this->world, { Constants::worldCenter.x - 0.1f, 5.0f }, 0.33, b2_dynamicBody, 0.0f, 0.2f, 10.0f));
 
-				this->marbleCount++;
+				this->marbleCount += 2;
 			}
 		}
 		else
@@ -203,10 +204,12 @@ void Galton::CreatePlayArea(int numPegs)
 			b2_staticBody));
 	}
 
+	float horizontalStudSpacing = (float)playAreaX / (float)((float)20 + 1.0f);
+
 	//+0.1 for floating precision 
 	for (float j = 0.0f; j <= 10.0f; j += 1.0f)
 	{
-		for (float i = leftWallPosition.x + pegSpacing + (j * (pegSpacing / 2.0f)); i <= rightWallPosition.x - pegSpacing - (j * (pegSpacing / 2.0f)) + 0.1f; i += pegSpacing)
+		for (float i = leftWallPosition.x + horizontalStudSpacing + (j * (horizontalStudSpacing / 2.0f)); i <= rightWallPosition.x - horizontalStudSpacing - (j * (horizontalStudSpacing / 2.0f)) + 0.1f; i += horizontalStudSpacing)
 		{
 			this->objects.push_back(new CircleObject(*this->world,
 				{ i, (Constants::screenHeight / Constants::scale) - (pegHeight / 2.0f) - 5.0f - (j * verticalStudSpacing) },
