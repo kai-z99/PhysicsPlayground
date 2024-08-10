@@ -12,11 +12,13 @@ public:
 
 	void SetFontSize(unsigned int size);
 	bool GetIsPressed() const;
+	bool GetIsHeld() const;
 	
 
 private:
 	bool isPressed;
 	bool isHovering;
+	bool isHeld;
 
 	sf::Vector2f position;
 	sf::Vector2f dimensions;

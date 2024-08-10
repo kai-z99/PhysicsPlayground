@@ -7,6 +7,7 @@ TextButton::TextButton(std::string text, const sf::Vector2f& position, const sf:
 	this->dimensions = dimensions;
 	this->isPressed = false;
 	this->isHovering = false;
+	this->isHeld = false;
 
 	this->color = color;
 
@@ -31,16 +32,24 @@ void TextButton::Update(const sf::Vector2i& mousePos, MouseStatus mouseState)
 		if (mouseState == Click)
 		{
 			this->isPressed = true;
+			this->isHeld = true;
+		}
+		else if (mouseState == Hold)
+		{
+			this->isHeld = true;
+			this->isPressed = false;
 		}
 		else
 		{
 			this->isPressed = false;
+			this->isHeld = false;
 		}
 	}
 	else
 	{
 		this->isHovering = false;
 		this->isPressed = false;
+		this->isHeld = false;
 	}
 
 	static const sf::Color lighter = sf::Color::Blue; //temp
@@ -65,4 +74,9 @@ void TextButton::SetFontSize(unsigned int size)
 bool TextButton::GetIsPressed() const
 {
 	return this->isPressed;
+}
+
+bool TextButton::GetIsHeld() const
+{
+	return this->isHeld;
 }
