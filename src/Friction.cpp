@@ -20,7 +20,7 @@
 Friction::Friction(Game* g): Scene(g)
 {
 	this->world->SetGravity({ 0.0f, 100.0f });
-	this->id = 4;
+	this->id = 3;
 
 	this->title = sf::Text("Friction", *this->game->GetFont(), 50);
 	this->title.setPosition({ 20.0f,20.0f });

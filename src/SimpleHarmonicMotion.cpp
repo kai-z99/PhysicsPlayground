@@ -10,7 +10,7 @@
 SimpleHarmonicMotion::SimpleHarmonicMotion(Game* g) : Scene(g)
 {
 	this->world->SetGravity({ 0.0f, 10.0f });
-	this->id = 5;
+	this->id = 4;
 
 	this->title = sf::Text("Simple Harmonic Motion", *this->game->GetFont(), 50);
 	this->title.setPosition({ 20.0f,20.0f });

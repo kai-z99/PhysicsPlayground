@@ -21,7 +21,7 @@ Momentum::Momentum(Game* g) : Scene(g)
 {
 	this->world->SetGravity({0.0f, 30.0f});
 
-	this->id = 2;
+	this->id = 1;
 
 	this->title = sf::Text("Momentum", *this->game->GetFont(), 50);
 	this->title.setPosition({ 20.0f,20.0f });

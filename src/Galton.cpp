@@ -104,7 +104,7 @@ Galton::Galton(Game* g) : Scene(g)
 	this->buttons[1]->SetFontSize(20);
 
 	//SLIDERS
-	this->sliders.push_back(new Slider({ Constants::menuX + 200, 300 }, 300, 0.7, *this->game->GetFont(), "Segments"));
+	this->sliders.push_back(new Slider({ Constants::menuX + 200, 300 }, 300, 0.85, *this->game->GetFont(), "Segments"));
 
 
 
@@ -186,8 +186,6 @@ void Galton::DrawNormalDistCurve(sf::RenderWindow& window)
 	}
 
 	window.draw(curve);
-
-
 }
 
 void Galton::CreatePlayArea(int numPegs)
@@ -217,7 +215,6 @@ void Galton::CreatePlayArea(int numPegs)
 				b2_staticBody));
 		}
 	}
-
 }
 
 void Galton::DestroyPlayArea()

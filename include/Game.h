@@ -17,6 +17,7 @@ public:
 	void Run();
 	void Draw();
 	void Update();
+	void ChangeScene(int id);
 
 	sf::RenderWindow* GetWindow();
 	sf::Vector2i GetMousePosition() const;
@@ -25,11 +26,12 @@ public:
 	sf::Event& GetCurrentEvent();
 	MouseStatus GetMouseStatus() const;
 	std::vector<sf::Vertex> GetBGLines();
+	sf::Sprite* GetSprite(int id); //based on vector position
 
 private:
 	unsigned int frameCount;
 
-	void ChangeScene(int id);
+	
 
 	sf::RenderWindow* window;
 	sf::Vector2i mousePosition;
@@ -40,4 +42,6 @@ private:
 	sf::Event currentEvent;
 
 	MouseStatus mouseStatus;
+
+	std::vector<sf::Sprite*> sprites;
 };

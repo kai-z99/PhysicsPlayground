@@ -18,7 +18,7 @@
 MomentOfInertia::MomentOfInertia(Game* g) : Scene(g)
 {
     this->world->SetGravity({ 0.0f, 0.0f });
-	this->id = 3;
+	this->id = 2;
 
     this->title = sf::Text("Moment of Inertia", *this->game->GetFont(), 50);
     this->title.setPosition({ 20.0f,20.0f });

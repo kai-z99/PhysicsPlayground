@@ -17,12 +17,12 @@ CentripetalForce::CentripetalForce(Game* g) : Scene(g)
 {
 	this->world->SetGravity({ 0.0f, 10.0f });
 
-	this->id = 1;
+	this->id = 0;
 
 	this->title = sf::Text("Centripetal Force", *this->game->GetFont(), 50);
 	this->title.setPosition({ 20.0f,20.0f });
 	this->title.setFillColor(sf::Color::Black);
-
+	
 	//OBJECTS
 	LoopObject* loop = new LoopObject(*this->world, { Constants::menuX / Constants::scale / 2.0f, 30.0f }, 10.0f, 50, b2_staticBody, 0.9f);
 	this->objects.push_back(loop);

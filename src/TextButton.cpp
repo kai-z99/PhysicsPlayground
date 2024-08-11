@@ -80,3 +80,8 @@ bool TextButton::GetIsHeld() const
 {
 	return this->isHeld;
 }
+
+sf::Vector2f TextButton::GetPosition() const
+{
+	return this->position;
+}

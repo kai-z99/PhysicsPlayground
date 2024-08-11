@@ -7,19 +7,21 @@
 #include "../include/Friction.h"
 #include "../include/SimpleHarmonicMotion.h"
 #include "../include/Galton.h"
+#include "../include/MainMenu.h"
 #include "../include/DebugDraw.h"
+#include <iostream>
 
 
 #include <iostream>
 Game::Game()
 {
-	this->window = new sf::RenderWindow(sf::VideoMode(Constants::screenWidth, Constants::screenHeight), "Box2D Simulation", sf::Style::Default);
+	this->window = new sf::RenderWindow(sf::VideoMode(Constants::screenWidth, Constants::screenHeight), "Box2D Simulation", sf::Style::Fullscreen);
 	this->debugDraw = new DebugDraw(*window, Constants::scale);
 
 	//MOUSE
 	this->mousePosition = sf::Mouse::getPosition();
 	this->mouseStatus = None;
-
+	
 	//FONT
 	this->font = new sf::Font();
 	if (!font->loadFromFile("resources/badFont.ttf"))
@@ -30,12 +32,57 @@ Game::Game()
 	this->frameCount = 0;
 
 	this->scene = nullptr;
+
+	for (int i = 0; i <= 5; i++)
+	{
+		sf::Texture* texture = new sf::Texture();
+		bool success;
+
+		switch (i)
+		{
+		case 0:
+			success = texture->loadFromFile("resources/centripetal.png");
+			break;
+
+		case 1:
+			success = texture->loadFromFile("resources/momentum.png");
+			break;
+
+		case 2:
+			success = texture->loadFromFile("resources/momentOfInertia.png");
+			break;
+
+		case 3:
+			success = texture->loadFromFile("resources/friction3.png");
+			break;
+
+		case 4:
+			success = texture->loadFromFile("resources/pendulum.png");
+			break;
+
+		case 5:
+			success = texture->loadFromFile("resources/normal.gif");
+			break;
+
+		default:
+			success = false;
+			break;
+		}
+
+
+
+		sf::Sprite* sprite = new sf::Sprite(*texture);
+		sprite->setOrigin(sprite->getLocalBounds().width / 2, sprite->getLocalBounds().height / 2);
+
+		this->sprites.push_back(sprite);
+	}
+
 	
 }
 
 void Game::Init()
 {
-	this->scene = new Galton(this); //temp
+	this->scene = new MainMenu(this); //temp
 }
 
 Game::~Game()
@@ -190,28 +237,33 @@ std::vector<sf::Vertex> Game::GetBGLines()
 	return lines;
 }
 
+sf::Sprite* Game::GetSprite(int id)
+{
+	return this->sprites[id];
+}
+
 void Game::ChangeScene(int id)
 {
 	Scene* newScene;
 
 	switch (id)
 	{
-	case 1:
+	case 0:
 		newScene = new CentripetalForce(this);
 		break;
-	case 2:
+	case 1:
 		newScene = new Momentum(this);
 		break;
-	case 3:
+	case 2:
 		newScene = new MomentOfInertia(this);
 		break;
-	case 4:
+	case 3:
 		newScene = new Friction(this);
 		break;
-	case 5:
+	case 4:
 		newScene = new SimpleHarmonicMotion(this);
 		break;
-	case 6:
+	case 5:
 		newScene = new Galton(this);
 		break;
 

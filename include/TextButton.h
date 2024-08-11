@@ -14,6 +14,7 @@ public:
 	bool GetIsPressed() const;
 	bool GetIsHeld() const;
 	
+	sf::Vector2f GetPosition() const;
 
 private:
 	bool isPressed;
