@@ -23,6 +23,10 @@ SimpleHarmonicMotion::SimpleHarmonicMotion(Game* g) : Scene(g)
 	//SLIDERS
 	this->sliders.push_back(new Slider({ Constants::menuX + 200, 300 }, 300, 8.0f/15.0f, *this->game->GetFont(), "Radius (M)"));
 
+	this->periodText = sf::Text(FloatToRoundedString(0.0f, 3) + " s", *this->game->GetFont(), 24);
+	this->periodText.setPosition(Constants::screenWidth / 2.0f - 200.0f, Constants::screenHeight / 2.0f);
+	this->periodText.setFillColor(sf::Color::Black);
+
 }
 
 SimpleHarmonicMotion::~SimpleHarmonicMotion()
@@ -32,13 +36,14 @@ SimpleHarmonicMotion::~SimpleHarmonicMotion()
 void SimpleHarmonicMotion::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
+	window.draw(this->periodText);
 }
 
 void SimpleHarmonicMotion::Update(unsigned int frameCount)
 {
 	Scene::Update(frameCount);
 
-	//make this apply torque if it doesnt reach its max height maybe? maybe off for loop situation
+	//make this apply torque if it doesnt reach its max height
 	if (this->objects[0]->GetAngularVelocity() > 0) this->objects[0]->ApplyTorque(490.0f * (this->objects[0]->GetDensity() / 100.0f));
 	else if (this->objects[0]->GetAngularVelocity() < 0) this->objects[0]->ApplyTorque(-490.0f);
 	
@@ -52,4 +57,5 @@ void SimpleHarmonicMotion::Update(unsigned int frameCount)
 	}
 	//--------------------------------------------------------------------------------------------
 
+	this->periodText.setString("~" + FloatToRoundedString(2 * Constants::PI * std::sqrt(radius / std::abs(10.0f)), 3) + " s");
 }

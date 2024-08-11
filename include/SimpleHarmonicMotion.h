@@ -12,5 +12,7 @@ public:
 	void Update(unsigned int frameCount) override;
 
 private:
-	
+	sf::Text periodText;
+
+
 };
