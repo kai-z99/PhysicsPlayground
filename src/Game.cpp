@@ -9,6 +9,7 @@
 #include "../include/Galton.h"
 #include "../include/MainMenu.h"
 #include "../include/DebugDraw.h"
+#include "../include/TextButton.h"
 #include <iostream>
 
 
@@ -77,6 +78,8 @@ Game::Game()
 		this->sprites.push_back(sprite);
 	}
 
+	this->backButton = new TextButton("Quit", {Constants::screenWidth - 105.0f, Constants::screenHeight - 55.0f}, {100.0f, 50.0f}, *this->font, sf::Color(186, 186, 186, 255), sf::Color(84, 83, 83, 255));
+	this->backButton->SetFontSize(20);
 	
 }
 
@@ -123,17 +126,6 @@ void Game::Run()
 			{
 				this->mouseStatus = Release;
 			}
-
-			else if (this->currentEvent.type == sf::Event::KeyPressed && this->currentEvent.key.code == sf::Keyboard::Left)
-			{
-				this->ChangeScene(this->scene->GetID() - 1);
-			}
-
-			else if (this->currentEvent.type == sf::Event::KeyPressed && this->currentEvent.key.code == sf::Keyboard::Right)
-			{
-				this->ChangeScene(this->scene->GetID() + 1);
-			}
-
 		}
 
 		//switch (this->mouseStatus)
@@ -161,7 +153,7 @@ void Game::Run()
 void Game::Draw()
 {
 	this->scene->Draw(*this->window);
-
+	this->backButton->Draw(*this->window);
 	this->window->display();
 
 }
@@ -170,6 +162,35 @@ void Game::Update()
 {
 	this->mousePosition = sf::Mouse::getPosition(*this->window);
 	this->frameCount++;
+	this->backButton->Update(this->mousePosition, this->mouseStatus);
+
+	//one of the scenes
+	if (this->scene->GetID() != -1)
+	{
+		if (this->backButton->GetString() != "Back")
+		{
+			this->backButton->SetString("Back", *this->font);
+		}
+
+		if (this->backButton->GetIsPressed())
+		{
+			this->ChangeScene(-1);
+		}
+	}
+
+	//main menu
+	else
+	{
+		if (this->backButton->GetString() != "Quit")
+		{
+			this->backButton->SetString("Quit", *this->font);
+		}
+
+		if (this->backButton->GetIsPressed())
+		{
+			this->window->close();
+		}
+	}
 
 	//handle input
 	this->scene->Update(this->frameCount);
@@ -265,6 +286,9 @@ void Game::ChangeScene(int id)
 		break;
 	case 5:
 		newScene = new Galton(this);
+		break;
+	case -1:
+		newScene = new MainMenu(this);
 		break;
 
 	default:

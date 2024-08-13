@@ -65,6 +65,12 @@ void TextButton::Draw(sf::RenderWindow& window)
 	window.draw(this->sfText);
 }
 
+void TextButton::SetString(const std::string& string, sf::Font font)
+{
+	this->sfText.setString(string);
+	this->sfText.setPosition(this->position.x - (sfText.getLocalBounds().width / 2), this->position.y - (sfText.getLocalBounds().height / 2));
+}
+
 void TextButton::SetFontSize(unsigned int size)
 {
 	this->sfText.setCharacterSize(size);
@@ -79,6 +85,11 @@ bool TextButton::GetIsPressed() const
 bool TextButton::GetIsHeld() const
 {
 	return this->isHeld;
+}
+
+std::string TextButton::GetString() const
+{
+	return this->sfText.getString();
 }
 
 sf::Vector2f TextButton::GetPosition() const

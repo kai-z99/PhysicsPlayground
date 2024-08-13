@@ -10,9 +10,12 @@ public:
 	void Update(const sf::Vector2i& mousePos, MouseStatus mouseState);
 	void Draw(sf::RenderWindow& window);
 
+	void SetString(const std::string& string, sf::Font font);
+
 	void SetFontSize(unsigned int size);
 	bool GetIsPressed() const;
 	bool GetIsHeld() const;
+	std::string GetString() const;
 	
 	sf::Vector2f GetPosition() const;
 

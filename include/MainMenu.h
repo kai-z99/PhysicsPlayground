@@ -13,6 +13,8 @@ public:
 	void Update(unsigned int frameCount) override;
 
 private:
-
 	void DrawTriangle(sf::RenderWindow& window, const sf::Vector2f& position);
+
+	sf::Text titleText;
+	sf::Text welcomeText;
 };

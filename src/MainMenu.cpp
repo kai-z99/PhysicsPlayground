@@ -21,6 +21,14 @@ MainMenu::MainMenu(Game* g) : Scene(g)
 	}
 
 	//this->game->GetSprite(0)->setPosition({100,100});
+	this->titleText = sf::Text("Physics\nPlayground!", *this->game->GetFont(), 40);
+	this->titleText.setPosition(Constants::menuX + 50, 150);
+	this->titleText.setFillColor(sf::Color::Black);
+
+
+	this->welcomeText = sf::Text("Welcome to:\n\n", *this->game->GetFont(), 30);
+	this->welcomeText.setPosition(Constants::menuX + 50, 70);
+	this->welcomeText.setFillColor(sf::Color::Black);
 }
 
 MainMenu::~MainMenu()
@@ -63,12 +71,11 @@ void MainMenu::Draw(sf::RenderWindow& window)
 		title.setPosition(this->buttons[i]->GetPosition() + sf::Vector2f(-(title.getLocalBounds().width / 2.0f), 70.0f));
 		title.setFillColor(sf::Color::Black);
 
-		
 		window.draw(title);
-
 	}
 
-	
+	window.draw(titleText);
+	window.draw(welcomeText);
 }
 
 void MainMenu::Update(unsigned int frameCount)

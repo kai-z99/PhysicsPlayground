@@ -97,7 +97,7 @@ void Scene::Draw(sf::RenderWindow& window)
 	}
 
 	window.draw(this->title);
-	this->DrawMouseCoordinates(window);
+//	this->DrawMouseCoordinates(window);
 }
 
 void Scene::DrawMouseCoordinates(sf::RenderWindow& window)
@@ -142,8 +142,6 @@ void Scene::Update(unsigned int frameCount)
 		}
 		
 	}
-
-	
 
 	for (Slider* s : this->sliders)
 	{

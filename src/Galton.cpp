@@ -104,7 +104,7 @@ Galton::Galton(Game* g) : Scene(g)
 	this->buttons[1]->SetFontSize(20);
 
 	//SLIDERS
-	this->sliders.push_back(new Slider({ Constants::menuX + 200, 300 }, 300, 0.85, *this->game->GetFont(), "Segments"));
+	this->sliders.push_back(new Slider({ Constants::menuX + 200, 500 }, 300, 0.85, *this->game->GetFont(), "Segments"));
 
 
 

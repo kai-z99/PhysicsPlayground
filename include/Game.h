@@ -4,7 +4,7 @@
 
 class Scene; //EACH SCENE HAS A WORLD AND OBJECTS VEC. COMMON: MENU
 class DebugDraw;
-
+class TextButton;
 
 
 class Game
@@ -31,8 +31,6 @@ public:
 private:
 	unsigned int frameCount;
 
-	
-
 	sf::RenderWindow* window;
 	sf::Vector2i mousePosition;
 
@@ -40,6 +38,7 @@ private:
 	DebugDraw* debugDraw;
 	sf::Font* font;
 	sf::Event currentEvent;
+	TextButton* backButton;
 
 	MouseStatus mouseStatus;
 
